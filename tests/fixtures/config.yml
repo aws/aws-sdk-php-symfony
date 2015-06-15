@@ -1,2 +1,19 @@
 framework:
     secret: "Rosebud was the name of his sled."
+
+aws:
+    version: latest
+    region: us-east-1
+    credentials:
+        key: not-a-real-key
+        secret: not-a-real-secret
+    DynamoDb:
+        region: us-west-2
+    S3:
+        version: '2006-03-01'
+    Sqs:
+        credentials:
+            key: a-different-fake-key
+            secret: a-different-fake-secret
+    CloudSearchDomain:
+        endpoint: http://search-with-some-subdomain.us-east-1.cloudsearch.amazonaws.com
