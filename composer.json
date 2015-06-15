@@ -1,0 +1,30 @@
+{
+  "name": "aws/aws-sdk-php-symfony",
+  "description": "A Symfony bundle for v3 of the AWS PHP SDK",
+  "minimum-stability": "stable",
+  "license": "Apache-2.0",
+  "authors": [
+    {
+      "name": "Amazon Web Services",
+      "homepage": "http://aws.amazon.com"
+    }
+  ],
+  "require-dev": {
+    "phpunit/phpunit": "~4.7",
+    "symfony/http-kernel": "~2.3",
+    "symfony/framework-bundle": "~2.3"
+  },
+  "require": {
+    "aws/aws-sdk-php": "~3.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "Aws\\Symfony\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Aws\\Symfony\\": "tests/"
+    }
+  }
+}
