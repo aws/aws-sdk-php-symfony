@@ -2,6 +2,7 @@
 
 namespace Aws\Symfony\DependencyInjection;
 
+use Aws;
 use Aws\ClientResolver;
 use Aws\Sdk;
 use ReflectionClass;
@@ -32,22 +33,7 @@ class Configuration implements ConfigurationInterface
 
     public function getAwsServices()
     {
-        static $services = [];
-
-        if (empty($services)) {
-            $sdkClass = new ReflectionClass(Sdk::class);
-            $manifestFile = implode(DIRECTORY_SEPARATOR, [
-                dirname($sdkClass->getFileName()),
-                'data',
-                'manifest.json',
-            ]);
-
-            $manifest = json_decode(file_get_contents($manifestFile), true);
-
-            $services = array_column($manifest, 'namespace');
-        }
-
-        return $services;
+        return array_column(Aws\manifest(), 'namespace');
     }
 
 
