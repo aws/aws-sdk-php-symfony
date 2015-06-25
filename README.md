@@ -37,6 +37,59 @@ class AppKernel extends Kernel
 }
 ```
 
+This bundle exposes an instance of the `Aws\Sdk` object as well as instances of each AWS client object as services to your symfony application
+
+<!-- BEGIN SERVICE TABLE -->
+Service | Instance Of
+--- | ---
+aws.auto_scaling | [Aws\AutoScaling\AutoScalingClient](http://docs.aws.amazon.com/aws-sdk-php/v3/api/class-Aws.AutoScaling.AutoScalingClient.html) 
+aws.cloud_formation | [Aws\CloudFormation\CloudFormationClient](http://docs.aws.amazon.com/aws-sdk-php/v3/api/class-Aws.CloudFormation.CloudFormationClient.html) 
+aws.cloud_front | [Aws\CloudFront\CloudFrontClient](http://docs.aws.amazon.com/aws-sdk-php/v3/api/class-Aws.CloudFront.CloudFrontClient.html) 
+aws.cloud_hsm | [Aws\CloudHsm\CloudHsmClient](http://docs.aws.amazon.com/aws-sdk-php/v3/api/class-Aws.CloudHsm.CloudHsmClient.html) 
+aws.cloud_search | [Aws\CloudSearch\CloudSearchClient](http://docs.aws.amazon.com/aws-sdk-php/v3/api/class-Aws.CloudSearch.CloudSearchClient.html) 
+aws.cloud_search_domain | [Aws\CloudSearchDomain\CloudSearchDomainClient](http://docs.aws.amazon.com/aws-sdk-php/v3/api/class-Aws.CloudSearchDomain.CloudSearchDomainClient.html) 
+aws.cloud_trail | [Aws\CloudTrail\CloudTrailClient](http://docs.aws.amazon.com/aws-sdk-php/v3/api/class-Aws.CloudTrail.CloudTrailClient.html) 
+aws.cloud_watch | [Aws\CloudWatch\CloudWatchClient](http://docs.aws.amazon.com/aws-sdk-php/v3/api/class-Aws.CloudWatch.CloudWatchClient.html) 
+aws.cloud_watch_logs | [Aws\CloudWatchLogs\CloudWatchLogsClient](http://docs.aws.amazon.com/aws-sdk-php/v3/api/class-Aws.CloudWatchLogs.CloudWatchLogsClient.html) 
+aws.code_deploy | [Aws\CodeDeploy\CodeDeployClient](http://docs.aws.amazon.com/aws-sdk-php/v3/api/class-Aws.CodeDeploy.CodeDeployClient.html) 
+aws.cognito_identity | [Aws\CognitoIdentity\CognitoIdentityClient](http://docs.aws.amazon.com/aws-sdk-php/v3/api/class-Aws.CognitoIdentity.CognitoIdentityClient.html) 
+aws.cognito_sync | [Aws\CognitoSync\CognitoSyncClient](http://docs.aws.amazon.com/aws-sdk-php/v3/api/class-Aws.CognitoSync.CognitoSyncClient.html) 
+aws.config_service | [Aws\ConfigService\ConfigServiceClient](http://docs.aws.amazon.com/aws-sdk-php/v3/api/class-Aws.ConfigService.ConfigServiceClient.html) 
+aws.data_pipeline | [Aws\DataPipeline\DataPipelineClient](http://docs.aws.amazon.com/aws-sdk-php/v3/api/class-Aws.DataPipeline.DataPipelineClient.html) 
+aws.direct_connect | [Aws\DirectConnect\DirectConnectClient](http://docs.aws.amazon.com/aws-sdk-php/v3/api/class-Aws.DirectConnect.DirectConnectClient.html) 
+aws.directory_service | [Aws\DirectoryService\DirectoryServiceClient](http://docs.aws.amazon.com/aws-sdk-php/v3/api/class-Aws.DirectoryService.DirectoryServiceClient.html) 
+aws.dynamo_db | [Aws\DynamoDb\DynamoDbClient](http://docs.aws.amazon.com/aws-sdk-php/v3/api/class-Aws.DynamoDb.DynamoDbClient.html) 
+aws.ec2 | [Aws\Ec2\Ec2Client](http://docs.aws.amazon.com/aws-sdk-php/v3/api/class-Aws.Ec2.Ec2Client.html) 
+aws.ecs | [Aws\Ecs\EcsClient](http://docs.aws.amazon.com/aws-sdk-php/v3/api/class-Aws.Ecs.EcsClient.html) 
+aws.efs | [Aws\Efs\EfsClient](http://docs.aws.amazon.com/aws-sdk-php/v3/api/class-Aws.Efs.EfsClient.html) 
+aws.elasti_cache | [Aws\ElastiCache\ElastiCacheClient](http://docs.aws.amazon.com/aws-sdk-php/v3/api/class-Aws.ElastiCache.ElastiCacheClient.html) 
+aws.elastic_beanstalk | [Aws\ElasticBeanstalk\ElasticBeanstalkClient](http://docs.aws.amazon.com/aws-sdk-php/v3/api/class-Aws.ElasticBeanstalk.ElasticBeanstalkClient.html) 
+aws.elastic_load_balancing | [Aws\ElasticLoadBalancing\ElasticLoadBalancingClient](http://docs.aws.amazon.com/aws-sdk-php/v3/api/class-Aws.ElasticLoadBalancing.ElasticLoadBalancingClient.html) 
+aws.elastic_transcoder | [Aws\ElasticTranscoder\ElasticTranscoderClient](http://docs.aws.amazon.com/aws-sdk-php/v3/api/class-Aws.ElasticTranscoder.ElasticTranscoderClient.html) 
+aws.emr | [Aws\Emr\EmrClient](http://docs.aws.amazon.com/aws-sdk-php/v3/api/class-Aws.Emr.EmrClient.html) 
+aws.glacier | [Aws\Glacier\GlacierClient](http://docs.aws.amazon.com/aws-sdk-php/v3/api/class-Aws.Glacier.GlacierClient.html) 
+aws.iam | [Aws\Iam\IamClient](http://docs.aws.amazon.com/aws-sdk-php/v3/api/class-Aws.Iam.IamClient.html) 
+aws.kinesis | [Aws\Kinesis\KinesisClient](http://docs.aws.amazon.com/aws-sdk-php/v3/api/class-Aws.Kinesis.KinesisClient.html) 
+aws.kms | [Aws\Kms\KmsClient](http://docs.aws.amazon.com/aws-sdk-php/v3/api/class-Aws.Kms.KmsClient.html) 
+aws.lambda | [Aws\Lambda\LambdaClient](http://docs.aws.amazon.com/aws-sdk-php/v3/api/class-Aws.Lambda.LambdaClient.html) 
+aws.machine_learning | [Aws\MachineLearning\MachineLearningClient](http://docs.aws.amazon.com/aws-sdk-php/v3/api/class-Aws.MachineLearning.MachineLearningClient.html) 
+aws.ops_works | [Aws\OpsWorks\OpsWorksClient](http://docs.aws.amazon.com/aws-sdk-php/v3/api/class-Aws.OpsWorks.OpsWorksClient.html) 
+aws.rds | [Aws\Rds\RdsClient](http://docs.aws.amazon.com/aws-sdk-php/v3/api/class-Aws.Rds.RdsClient.html) 
+aws.redshift | [Aws\Redshift\RedshiftClient](http://docs.aws.amazon.com/aws-sdk-php/v3/api/class-Aws.Redshift.RedshiftClient.html) 
+aws.route53 | [Aws\Route53\Route53Client](http://docs.aws.amazon.com/aws-sdk-php/v3/api/class-Aws.Route53.Route53Client.html) 
+aws.route53_domains | [Aws\Route53Domains\Route53DomainsClient](http://docs.aws.amazon.com/aws-sdk-php/v3/api/class-Aws.Route53Domains.Route53DomainsClient.html) 
+aws.s3 | [Aws\S3\S3Client](http://docs.aws.amazon.com/aws-sdk-php/v3/api/class-Aws.S3.S3Client.html) 
+aws.ses | [Aws\Ses\SesClient](http://docs.aws.amazon.com/aws-sdk-php/v3/api/class-Aws.Ses.SesClient.html) 
+aws.sns | [Aws\Sns\SnsClient](http://docs.aws.amazon.com/aws-sdk-php/v3/api/class-Aws.Sns.SnsClient.html) 
+aws.sqs | [Aws\Sqs\SqsClient](http://docs.aws.amazon.com/aws-sdk-php/v3/api/class-Aws.Sqs.SqsClient.html) 
+aws.ssm | [Aws\Ssm\SsmClient](http://docs.aws.amazon.com/aws-sdk-php/v3/api/class-Aws.Ssm.SsmClient.html) 
+aws.storage_gateway | [Aws\StorageGateway\StorageGatewayClient](http://docs.aws.amazon.com/aws-sdk-php/v3/api/class-Aws.StorageGateway.StorageGatewayClient.html) 
+aws.sts | [Aws\Sts\StsClient](http://docs.aws.amazon.com/aws-sdk-php/v3/api/class-Aws.Sts.StsClient.html) 
+aws.support | [Aws\Support\SupportClient](http://docs.aws.amazon.com/aws-sdk-php/v3/api/class-Aws.Support.SupportClient.html) 
+aws.swf | [Aws\Swf\SwfClient](http://docs.aws.amazon.com/aws-sdk-php/v3/api/class-Aws.Swf.SwfClient.html) 
+aws.work_spaces | [Aws\WorkSpaces\WorkSpacesClient](http://docs.aws.amazon.com/aws-sdk-php/v3/api/class-Aws.WorkSpaces.WorkSpacesClient.html) 
+<!-- END SERVICE TABLE -->
+
 ## Links
 
 * [AWS SDK for PHP on Github](http://github.com/aws/aws-sdk-php)
