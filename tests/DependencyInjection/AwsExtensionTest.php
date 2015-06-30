@@ -5,7 +5,6 @@ namespace Aws\Symfony\DependencyInjection;
 use AppKernel;
 use Aws\AwsClient;
 use Aws\Sdk;
-use Doctrine\Common\Inflector\Inflector;
 use ReflectionClass;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -86,7 +85,7 @@ class AwsExtensionTest extends \PHPUnit_Framework_TestCase
             $clientClass = "Aws\\{$serviceNamespace}\\{$serviceNamespace}Client";
             $services []= [
                 $serviceNamespace,
-                'aws.' . Inflector::tableize($serviceNamespace),
+                'aws.' . strtolower($serviceNamespace),
                 class_exists($clientClass) ? $clientClass : AwsClient::class,
             ];
         }

@@ -3,7 +3,6 @@
 namespace Aws\Symfony\DependencyInjection;
 
 use Aws\AwsClient;
-use Doctrine\Common\Inflector\Inflector;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
@@ -30,7 +29,7 @@ class AwsExtension extends Extension
 
         foreach ($configuration->getAwsServices() as $awsService) {
             $container->setDefinition(
-                'aws.' . Inflector::tableize($awsService),
+                'aws.' . strtolower($awsService),
                 $this->createServiceDefinition($awsService)
             );
         }

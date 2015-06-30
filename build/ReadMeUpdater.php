@@ -2,6 +2,7 @@
 
 namespace Aws\Symfony;
 
+use Composer\Script\Event;
 use Symfony\Component\DependencyInjection\Container;
 
 class ReadMeUpdater
@@ -12,10 +13,21 @@ class ReadMeUpdater
     const DOCS_URL_TEMPLATE = 'http://docs.aws.amazon.com/aws-sdk-php/v3/api/class-'
         . self::SERVICE_CLASS_DELIMITER . '.html';
 
-    public static function updateReadMe()
+    protected $projectRoot;
+
+    public static function updateReadMe(Event $e)
     {
-        require __DIR__ . '/../vendor/autoload.php';
-        (new static)->doUpdateReadMe();
+        $vendorDir = $e->getComposer()->getConfig()->get('vendor-dir');
+        $projectRoot = dirname($vendorDir);
+
+        require "$vendorDir/autoload.php";
+
+        (new static($projectRoot))->doUpdateReadMe();
+    }
+
+    public function __construct($projectRoot = '..')
+    {
+        $this->projectRoot = $projectRoot;
     }
 
 
@@ -41,7 +53,7 @@ class ReadMeUpdater
 
     protected function getReadMePath()
     {
-        return dirname(__DIR__) . '/README.md';
+        return $this->projectRoot . '/README.md';
     }
 
     protected function getServicesTable()
@@ -78,7 +90,7 @@ class ReadMeUpdater
         static $container = null;
 
         if (empty($container)) {
-            require_once __DIR__ . '/fixtures/AppKernel.php';
+            require_once $this->projectRoot . '/tests/fixtures/AppKernel.php';
             $kernel = new \AppKernel('test', true);
             $kernel->boot();
             $container = $kernel->getContainer();
