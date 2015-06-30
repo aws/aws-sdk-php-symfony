@@ -10,8 +10,7 @@ class ReadMeUpdater
     const SERVICES_TABLE_START = '<!-- BEGIN SERVICE TABLE -->';
     const SERVICES_TABLE_END = '<!-- END SERVICE TABLE -->';
     const SERVICE_CLASS_DELIMITER = '@CLASS@';
-    const DOCS_URL_TEMPLATE = 'http://docs.aws.amazon.com/aws-sdk-php/v3/api/class-'
-        . self::SERVICE_CLASS_DELIMITER . '.html';
+    const DOCS_URL_TEMPLATE = 'http://docs.aws.amazon.com/aws-sdk-php/v3/api/class-@CLASS@.html';
 
     protected $projectRoot;
 
