@@ -9,8 +9,8 @@ A Symfony bundle for including the [AWS SDK for PHP](https://github.com/aws/aws-
 
 ## Installation
 
-The AWS bundle can be installed via [Composer](http://getcomposer.org) by requiring the
-`aws/aws-sdk-php-symfony` package in your project's `composer.json`:
+The AWS bundle can be installed via [Composer](http://getcomposer.org) by 
+requiring the`aws/aws-sdk-php-symfony` package in your project's `composer.json`:
 
 ```json
 {
@@ -36,6 +36,21 @@ class AppKernel extends Kernel
     ...
 }
 ```
+
+## Configuration
+
+Configuration is handled by the SDK rather than by the bundle, and no validation
+is performed at compile time. Full documentation of the configuration options
+available can be read in the [SDK Guide](http://docs.aws.amazon.com/aws-sdk-php/v3/guide/guide/configuration.html).
+
+To use a service for any configuration value, use `@` followed by the service
+name, such as `@a_service`. This syntax will be converted to a service during
+container compilation. If you want to use a string literal that begins with `@`,
+you will need to escape it by adding another `@` sign.
+
+Sample configuration can be found in the `tests/fixtures` folder for [YAML](https://github.com/aws/aws-sdk-php-symfony/blob/master/tests/fixtures/config.yml), [PHP](https://github.com/aws/aws-sdk-php-symfony/blob/master/tests/fixtures/config.php), and [XML](https://github.com/aws/aws-sdk-php-symfony/blob/master/tests/fixtures/config.xml).
+
+## Usage
 
 This bundle exposes an instance of the `Aws\Sdk` object as well as instances of each AWS client object as services to your symfony application
 
@@ -88,6 +103,7 @@ aws.sts | [Aws\Sts\StsClient](http://docs.aws.amazon.com/aws-sdk-php/v3/api/clas
 aws.support | [Aws\Support\SupportClient](http://docs.aws.amazon.com/aws-sdk-php/v3/api/class-Aws.Support.SupportClient.html) 
 aws.swf | [Aws\Swf\SwfClient](http://docs.aws.amazon.com/aws-sdk-php/v3/api/class-Aws.Swf.SwfClient.html) 
 aws.workspaces | [Aws\WorkSpaces\WorkSpacesClient](http://docs.aws.amazon.com/aws-sdk-php/v3/api/class-Aws.WorkSpaces.WorkSpacesClient.html) 
+aws_sdk | [Aws\Sdk](http://docs.aws.amazon.com/aws-sdk-php/v3/api/class-Aws.Sdk.html) 
 <!-- END SERVICE TABLE -->
 
 ## Links

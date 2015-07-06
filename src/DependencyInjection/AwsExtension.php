@@ -2,6 +2,7 @@
 
 namespace Aws\Symfony\DependencyInjection;
 
+use Aws;
 use Aws\AwsClient;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -22,12 +23,13 @@ class AwsExtension extends Extension
 
         $configuration = new Configuration();
         $config = $this->processConfiguration($configuration, $configs);
+        $this->inflateServicesInConfig($config);
 
         $container
             ->getDefinition('aws_sdk')
             ->replaceArgument(0, $config);
 
-        foreach ($configuration->getAwsServices() as $awsService) {
+        foreach (array_column(Aws\manifest(), 'namespace') as $awsService) {
             $container->setDefinition(
                 'aws.' . strtolower($awsService),
                 $this->createServiceDefinition($awsService)
@@ -36,7 +38,7 @@ class AwsExtension extends Extension
     }
 
 
-    protected function createServiceDefinition($name)
+    private function createServiceDefinition($name)
     {
         $clientClass = "Aws\\{$name}\\{$name}Client";
         $serviceDefinition = new Definition(
@@ -49,5 +51,24 @@ class AwsExtension extends Extension
         ]);
 
         return $serviceDefinition;
+    }
+
+    private function inflateServicesInConfig(array &$config)
+    {
+        array_walk($config, function (&$value) {
+            if (is_array($value)) {
+                $this->inflateServicesInConfig($value);
+            }
+
+            if (is_string($value) && 0 === strpos($value, '@')) {
+                // this is either a service reference or a string meant to
+                // start with an '@' symbol. In any case, lop off the first '@'
+                $value = substr($value, 1);
+                if (0 !== strpos($value, '@')) {
+                    // this is a service reference, not a string literal
+                    $value = new Reference($value);
+                }
+            }
+        });
     }
 }

@@ -77,7 +77,7 @@ class ReadMeUpdater
     protected function getAWSServices(Container $container)
     {
         return array_filter($container->getServiceIds(), function ($service) {
-            return strpos($service, 'aws.') === 0;
+            return strpos($service, 'aws') === 0;
         });
     }
 

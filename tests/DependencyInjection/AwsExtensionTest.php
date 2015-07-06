@@ -6,7 +6,9 @@ use AppKernel;
 use Aws\AwsClient;
 use Aws\Sdk;
 use ReflectionClass;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\DependencyInjection\Reference;
 
 class AwsExtensionTest extends \PHPUnit_Framework_TestCase
 {
@@ -17,7 +19,8 @@ class AwsExtensionTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $kernel = new AppKernel('test', true);
+        $format = getenv('AWS_BUNDLE_FORMAT_UNDER_TEST') ?: 'yml';
+        $kernel = new AppKernel('test', true, $format);
         $kernel->boot();
 
         $this->container = $kernel->getContainer();
@@ -67,6 +70,47 @@ class AwsExtensionTest extends \PHPUnit_Framework_TestCase
         $service = $this->container->get($serviceName);
 
         $this->assertSame($serviceRegion, $service->getRegion());
+    }
+
+    /**
+     * @test
+     */
+    public function extension_should_escape_strings_that_begin_with_at_sign()
+    {
+        $extension = new AwsExtension;
+        $config = ['credentials' => [
+            'key' => '@@key',
+            'secret' => '@@secret'
+        ]];
+        $container = $this->getMock(ContainerBuilder::class, ['getDefinition', 'replaceArgument']);
+        $container->expects($this->once())
+            ->method('getDefinition')
+            ->with('aws_sdk')
+            ->willReturnSelf();
+        $container->expects($this->once())
+            ->method('replaceArgument')
+            ->with(0, ['credentials' => ['key' => '@key', 'secret' => '@secret']]);
+
+        $extension->load([$config], $container);
+    }
+
+    /**
+     * @test
+     */
+    public function extension_should_expand_service_references()
+    {
+        $extension = new AwsExtension;
+        $config = ['credentials' => '@aws_sdk'];
+        $container = $this->getMock(ContainerBuilder::class, ['getDefinition', 'replaceArgument']);
+        $container->expects($this->once())
+            ->method('getDefinition')
+            ->with('aws_sdk')
+            ->willReturnSelf();
+        $container->expects($this->once())
+            ->method('replaceArgument')
+            ->with(0, ['credentials' => new Reference('aws_sdk')]);
+
+        $extension->load([$config], $container);
     }
 
     public function serviceProvider()

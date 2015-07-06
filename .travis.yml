@@ -6,6 +6,11 @@ php:
   - 7.0
   - hhvm
 
+env:
+  - AWS_BUNDLE_FORMAT_UNDER_TEST="yml"
+  - AWS_BUNDLE_FORMAT_UNDER_TEST="php"
+  - AWS_BUNDLE_FORMAT_UNDER_TEST="xml"
+
 sudo: false
 
 install: travis_retry composer install --no-interaction --prefer-source

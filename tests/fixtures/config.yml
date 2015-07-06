@@ -6,14 +6,19 @@ aws:
     region: us-east-1
     credentials:
         key: not-a-real-key
-        secret: not-a-real-secret
+        secret: @@not-a-real-secret # this will be escaped as '@not-a-real-secret'
     DynamoDb:
         region: us-west-2
     S3:
         version: '2006-03-01'
     Sqs:
-        credentials:
-            key: a-different-fake-key
-            secret: a-different-fake-secret
+        credentials: @a_service
     CloudSearchDomain:
         endpoint: http://search-with-some-subdomain.us-east-1.cloudsearch.amazonaws.com
+
+services:
+    a_service:
+        class: Aws\Credentials\Credentials
+        arguments:
+            - a-different-fake-key
+            - a-different-fake-secret

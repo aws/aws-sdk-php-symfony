@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:framework="http://symfony.com/schema/dic/symfony"
+           xmlns:aws="http://example.org/schema/dic/aws">
+
+    <framework:config secret="Rosebud was the name of his sled."/>
+
+    <aws:config version="latest" region="us-east-1">
+        <aws:credentials
+                key="not-a-real-key"
+                secret="@@not-a-real-secret"
+                /> <!-- secret will be escaped as '@not-a-real-secret '-->
+        <aws:CloudSearchDomain
+                endpoint="http://search-with-some-subdomain.us-east-1.cloudsearch.amazonaws.com"
+                />
+        <aws:DynamoDb region="us-west-2"/>
+        <aws:S3 version="2006-03-01"/>
+        <aws:Sqs credentials="@a_service"/>
+    </aws:config>
+
+    <services>
+        <service id="a_service" class="Aws\Credentials\Credentials">
+            <argument>a-different-fake-key</argument>
+            <argument>a-different-fake-secret</argument>
+        </service>
+    </services>
+</container>
