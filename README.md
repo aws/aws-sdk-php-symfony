@@ -15,7 +15,7 @@ requiring the`aws/aws-sdk-php-symfony` package in your project's `composer.json`
 ```json
 {
     "require": {
-        "aws/aws-sdk-php-symfony": "~1.0"
+        "aws/aws-sdk-php-symfony": "~0.1"
     }
 }
 ```
@@ -66,7 +66,9 @@ aws.cloudsearchdomain | [Aws\CloudSearchDomain\CloudSearchDomainClient](http://d
 aws.cloudtrail | [Aws\CloudTrail\CloudTrailClient](http://docs.aws.amazon.com/aws-sdk-php/v3/api/class-Aws.CloudTrail.CloudTrailClient.html) 
 aws.cloudwatch | [Aws\CloudWatch\CloudWatchClient](http://docs.aws.amazon.com/aws-sdk-php/v3/api/class-Aws.CloudWatch.CloudWatchClient.html) 
 aws.cloudwatchlogs | [Aws\CloudWatchLogs\CloudWatchLogsClient](http://docs.aws.amazon.com/aws-sdk-php/v3/api/class-Aws.CloudWatchLogs.CloudWatchLogsClient.html) 
+aws.codecommit | [Aws\CodeCommit\CodeCommitClient](http://docs.aws.amazon.com/aws-sdk-php/v3/api/class-Aws.CodeCommit.CodeCommitClient.html) 
 aws.codedeploy | [Aws\CodeDeploy\CodeDeployClient](http://docs.aws.amazon.com/aws-sdk-php/v3/api/class-Aws.CodeDeploy.CodeDeployClient.html) 
+aws.codepipeline | [Aws\CodePipeline\CodePipelineClient](http://docs.aws.amazon.com/aws-sdk-php/v3/api/class-Aws.CodePipeline.CodePipelineClient.html) 
 aws.cognitoidentity | [Aws\CognitoIdentity\CognitoIdentityClient](http://docs.aws.amazon.com/aws-sdk-php/v3/api/class-Aws.CognitoIdentity.CognitoIdentityClient.html) 
 aws.cognitosync | [Aws\CognitoSync\CognitoSyncClient](http://docs.aws.amazon.com/aws-sdk-php/v3/api/class-Aws.CognitoSync.CognitoSyncClient.html) 
 aws.configservice | [Aws\ConfigService\ConfigServiceClient](http://docs.aws.amazon.com/aws-sdk-php/v3/api/class-Aws.ConfigService.ConfigServiceClient.html) 
