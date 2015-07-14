@@ -16,12 +16,8 @@ class ReadMeUpdater
 
     public static function updateReadMe(Event $e)
     {
-        $vendorDir = $e->getComposer()->getConfig()->get('vendor-dir');
-        $projectRoot = dirname($vendorDir);
-
-        require "$vendorDir/autoload.php";
-
-        (new static($projectRoot))->doUpdateReadMe();
+        (new static(dirname($e->getComposer()->getConfig()->get('vendor-dir'))))
+            ->doUpdateReadMe();
     }
 
     public function __construct($projectRoot = '..')
@@ -89,7 +85,7 @@ class ReadMeUpdater
         static $container = null;
 
         if (empty($container)) {
-            require_once $this->projectRoot . '/tests/fixtures/AppKernel.php';
+            require_once $this->projectRoot . '/tests/bootstrap.php';
             $kernel = new \AppKernel('test', true);
             $kernel->boot();
             $container = $kernel->getContainer();
