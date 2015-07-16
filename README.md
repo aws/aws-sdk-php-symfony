@@ -55,7 +55,7 @@ Sample configuration can be found in the `tests/fixtures` folder for [YAML](http
 This bundle exposes an instance of the `Aws\Sdk` object as well as instances of 
 each AWS client object as services to your symfony application. The services
 made available depends on which version of the SDK is installed. In version
-<!-- SDK VERSION -->3.2.0<!-- /SDK VERSION -->, the following services are made available:
+<span class="sdk-version">3.2.0</span>, the following services are made available:
 
 <!-- BEGIN SERVICE TABLE -->
 Service | Instance Of

@@ -88,9 +88,9 @@ class ReadMeUpdater
 
     private function replaceSdkVersionNumber($readMeText)
     {
-        $start = '<!-- SDK VERSION -->';
+        $start = '<span class="sdk-version">';
         $version = Sdk::VERSION;
-        $end = '<!-- /SDK VERSION -->';
+        $end = '</span>';
         $pattern = '/' . preg_quote($start, '/') . '[^<]*'
             . preg_quote($end, '/') . '/';
 
