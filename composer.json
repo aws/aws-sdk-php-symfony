@@ -1,42 +1,104 @@
 {
-  "name": "aws/aws-sdk-php-symfony",
-  "description": "A Symfony bundle for v3 of the AWS PHP SDK",
-  "minimum-stability": "stable",
-  "license": "Apache-2.0",
-  "authors": [
-    {
-      "name": "Amazon Web Services",
-      "homepage": "http://aws.amazon.com"
-    }
-  ],
-  "require": {
-    "php": ">=5.5",
-    "aws/aws-sdk-php": "^3.0.5",
-    "symfony/config": "~2.3",
-    "symfony/dependency-injection": "~2.3",
-    "symfony/http-kernel": "~2.3"
-  },
-  "require-dev": {
-    "phpunit/phpunit": "~4.7",
-    "symfony/framework-bundle": "~2.3",
-    "symfony/finder": "~2.3",
-    "symfony/yaml": "~2.3",
-    "squizlabs/php_codesniffer": "^2.3"
-  },
-  "autoload": {
-    "psr-4": {
-      "Aws\\Symfony\\": "src/"
-    }
-  },
-  "autoload-dev": {
-    "psr-4": {
-      "Aws\\Symfony\\": ["build/", "tests/"]
+    "name": "aws\/aws-sdk-php-symfony",
+    "description": "A Symfony bundle for v3 of the AWS PHP SDK",
+    "keywords": [
+        "aws",
+        "amazon",
+        "symfony",
+        "symfony2",
+        "autoscaling",
+        "cloudformation",
+        "cloudfront",
+        "cloudhsm",
+        "cloudsearch",
+        "cloudsearchdomain",
+        "cloudtrail",
+        "cloudwatch",
+        "cloudwatchlogs",
+        "codecommit",
+        "codedeploy",
+        "codepipeline",
+        "cognitoidentity",
+        "cognitosync",
+        "configservice",
+        "datapipeline",
+        "devicefarm",
+        "directconnect",
+        "directoryservice",
+        "dynamodb",
+        "dynamodbstreams",
+        "ec2",
+        "ecs",
+        "efs",
+        "elasticache",
+        "elasticbeanstalk",
+        "elasticloadbalancing",
+        "elastictranscoder",
+        "emr",
+        "glacier",
+        "iam",
+        "kinesis",
+        "kms",
+        "lambda",
+        "machinelearning",
+        "opsworks",
+        "rds",
+        "redshift",
+        "route53",
+        "route53domains",
+        "s3",
+        "ses",
+        "sns",
+        "sqs",
+        "ssm",
+        "storagegateway",
+        "sts",
+        "support",
+        "swf",
+        "workspaces",
+        "sdk"
+    ],
+    "minimum-stability": "stable",
+    "license": "Apache-2.0",
+    "authors": [
+        {
+            "name": "Amazon Web Services",
+            "homepage": "http:\/\/aws.amazon.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.5",
+        "aws\/aws-sdk-php": "^3.0.5",
+        "symfony\/config": "~2.3",
+        "symfony\/dependency-injection": "~2.3",
+        "symfony\/http-kernel": "~2.3"
     },
-    "classmap": ["tests/fixtures"]
-  },
-  "scripts": {
-    "post-autoload-dump": [
-      "Aws\\Symfony\\ReadMeUpdater::updateReadMeFromComposer"
-    ]
-  }
+    "require-dev": {
+        "phpunit\/phpunit": "~4.7",
+        "symfony\/framework-bundle": "~2.3",
+        "symfony\/finder": "~2.3",
+        "symfony\/yaml": "~2.3",
+        "squizlabs\/php_codesniffer": "^2.3"
+    },
+    "autoload": {
+        "psr-4": {
+            "Aws\\Symfony\\": "src\/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Aws\\Symfony\\": [
+                "build\/",
+                "tests\/"
+            ]
+        },
+        "classmap": [
+            "tests\/fixtures"
+        ]
+    },
+    "scripts": {
+        "post-autoload-dump": [
+            "Aws\\Symfony\\ReadMeUpdater::updateFromComposer"
+        ]
+    }
 }

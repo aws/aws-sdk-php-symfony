@@ -6,7 +6,7 @@ use Aws\Sdk;
 use Composer\Script\Event;
 use Symfony\Component\DependencyInjection\Container;
 
-class ReadMeUpdater
+class DocumentationUpdater
 {
     const SERVICES_TABLE_START = '<!-- BEGIN SERVICE TABLE -->';
     const SERVICES_TABLE_END = '<!-- END SERVICE TABLE -->';
@@ -15,14 +15,15 @@ class ReadMeUpdater
 
     protected $projectRoot;
 
-    public static function updateReadMeFromComposer(Event $e)
+    public static function updateFromComposer(Event $e)
     {
         $root = dirname($e->getComposer()->getConfig()->get('vendor-dir'));
 
         require implode(DIRECTORY_SEPARATOR, [$root, 'vendor', 'autoload.php']);
 
         (new static($root))
-            ->updateReadMe();
+            ->updateReadMe()
+            ->updateComposerJSON();
     }
 
     public function __construct($projectRoot = '..')
@@ -30,6 +31,9 @@ class ReadMeUpdater
         $this->projectRoot = $projectRoot;
     }
 
+    /**
+     * @return self
+     */
     public function updateReadMe()
     {
         $readMeParts = $this->getReadMeWithoutServicesTable();
@@ -43,6 +47,29 @@ class ReadMeUpdater
                 implode($servicesTable, $readMeParts)
             )
         );
+
+        return $this;
+    }
+
+    /**
+     * @return self
+     */
+    public function updateComposerJSON()
+    {
+        $packageTags = ['aws', 'amazon', 'symfony', 'symfony2'];
+        $jsonPath = $this->projectRoot . DIRECTORY_SEPARATOR . 'composer.json';
+        $composerJson = json_decode(file_get_contents($jsonPath));
+
+        $composerJson->keywords = array_merge(
+            $packageTags,
+            array_map(function ($serviceId) {
+                return preg_replace('/aws[\._]/', '', $serviceId);
+            }, $this->getAWSServices($this->getContainer()))
+        );
+
+        file_put_contents($jsonPath, json_encode($composerJson, JSON_PRETTY_PRINT));
+
+        return $this;
     }
 
 
@@ -57,7 +84,7 @@ class ReadMeUpdater
 
     private function getReadMePath()
     {
-        return $this->projectRoot . '/README.md';
+        return $this->projectRoot . DIRECTORY_SEPARATOR . 'README.md';
     }
 
     private function getServicesTable()
