@@ -2,6 +2,7 @@
 
 namespace Aws\Symfony;
 
+use Aws\Sdk;
 use Composer\Script\Event;
 use Symfony\Component\DependencyInjection\Container;
 
@@ -14,10 +15,14 @@ class ReadMeUpdater
 
     protected $projectRoot;
 
-    public static function updateReadMe(Event $e)
+    public static function updateReadMeFromComposer(Event $e)
     {
-        (new static(dirname($e->getComposer()->getConfig()->get('vendor-dir'))))
-            ->doUpdateReadMe();
+        $root = dirname($e->getComposer()->getConfig()->get('vendor-dir'));
+
+        require implode(DIRECTORY_SEPARATOR, [$root, 'vendor', 'autoload.php']);
+
+        (new static($root))
+            ->updateReadMe();
     }
 
     public function __construct($projectRoot = '..')
@@ -25,19 +30,23 @@ class ReadMeUpdater
         $this->projectRoot = $projectRoot;
     }
 
-
-    protected function doUpdateReadMe()
+    public function updateReadMe()
     {
         $readMeParts = $this->getReadMeWithoutServicesTable();
         $servicesTable = self::SERVICES_TABLE_START . "\n"
             . $this->getServicesTable()
             . self::SERVICES_TABLE_END;
 
-        $updatedReadMe = implode($servicesTable, $readMeParts);
-        file_put_contents($this->getReadMePath(), $updatedReadMe);
+        file_put_contents(
+            $this->getReadMePath(),
+            $this->replaceSdkVersionNumber(
+                implode($servicesTable, $readMeParts)
+            )
+        );
     }
 
-    protected function getReadMeWithoutServicesTable()
+
+    private function getReadMeWithoutServicesTable()
     {
         $readMe = file_get_contents($this->getReadMePath());
         $tablePattern = '/' . preg_quote(self::SERVICES_TABLE_START)
@@ -46,12 +55,12 @@ class ReadMeUpdater
         return preg_split($tablePattern, $readMe, 2);
     }
 
-    protected function getReadMePath()
+    private function getReadMePath()
     {
         return $this->projectRoot . '/README.md';
     }
 
-    protected function getServicesTable()
+    private function getServicesTable()
     {
         $table = "Service | Instance Of\n--- | ---\n";
 
@@ -70,22 +79,32 @@ class ReadMeUpdater
         return $table;
     }
 
-    protected function getAWSServices(Container $container)
+    private function getAWSServices(Container $container)
     {
         return array_filter($container->getServiceIds(), function ($service) {
             return strpos($service, 'aws') === 0;
         });
     }
 
+    private function replaceSdkVersionNumber($readMeText)
+    {
+        $start = '<!-- SDK VERSION -->';
+        $version = Sdk::VERSION;
+        $end = '<!-- /SDK VERSION -->';
+        $pattern = '/' . preg_quote($start, '/') . '[^<]*'
+            . preg_quote($end, '/') . '/';
+
+        return preg_replace($pattern, "$start{$version}$end", $readMeText);
+    }
+
     /**
      * @return Container
      */
-    protected function getContainer()
+    private function getContainer()
     {
         static $container = null;
 
         if (empty($container)) {
-            require_once $this->projectRoot . '/tests/bootstrap.php';
             $kernel = new \AppKernel('test', true);
             $kernel->boot();
             $container = $kernel->getContainer();

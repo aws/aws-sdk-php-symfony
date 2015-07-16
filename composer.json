@@ -31,11 +31,12 @@
   "autoload-dev": {
     "psr-4": {
       "Aws\\Symfony\\": ["build/", "tests/"]
-    }
+    },
+    "classmap": ["tests/fixtures"]
   },
   "scripts": {
     "post-autoload-dump": [
-      "Aws\\Symfony\\ReadMeUpdater::updateReadMe"
+      "Aws\\Symfony\\ReadMeUpdater::updateReadMeFromComposer"
     ]
   }
 }
