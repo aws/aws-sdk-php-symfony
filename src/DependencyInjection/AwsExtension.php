@@ -4,12 +4,14 @@ namespace Aws\Symfony\DependencyInjection;
 
 use Aws;
 use Aws\AwsClient;
+use Aws\Symfony\AwsBundle;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Extension\Extension;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 use Symfony\Component\DependencyInjection\Reference;
+use Symfony\Component\HttpKernel\Kernel;
 
 class AwsExtension extends Extension
 {
@@ -27,7 +29,10 @@ class AwsExtension extends Extension
 
         $container
             ->getDefinition('aws_sdk')
-            ->replaceArgument(0, $config);
+            ->replaceArgument(0, $config + ['ua_append' => [
+                'Symfony/' . Kernel::VERSION,
+                'SYMOD/' . AwsBundle::VERSION,
+            ]]);
 
         foreach (array_column(Aws\manifest(), 'namespace') as $awsService) {
             $container->setDefinition(

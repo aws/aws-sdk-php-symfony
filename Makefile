@@ -3,7 +3,3 @@ test: clean-tests
 
 clean-tests:
 	rm -rf tests/fixtures/cache/*
-
-phpfmt:
-	vendor/bin/phpcbf --standard=PSR2 src/ tests/ build/ \
-	--ignore=tests/fixtures/cache/

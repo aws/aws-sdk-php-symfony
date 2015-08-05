@@ -89,7 +89,14 @@ class AwsExtensionTest extends \PHPUnit_Framework_TestCase
             ->willReturnSelf();
         $container->expects($this->once())
             ->method('replaceArgument')
-            ->with(0, ['credentials' => ['key' => '@key', 'secret' => '@secret']]);
+            ->with(0, $this->callback(function ($arg) {
+                return is_array($arg)
+                    && isset($arg['credentials'])
+                    && $arg['credentials'] === [
+                        'key' => '@key',
+                        'secret' => '@secret'
+                    ];
+            }));
 
         $extension->load([$config], $container);
     }
@@ -108,7 +115,12 @@ class AwsExtensionTest extends \PHPUnit_Framework_TestCase
             ->willReturnSelf();
         $container->expects($this->once())
             ->method('replaceArgument')
-            ->with(0, ['credentials' => new Reference('aws_sdk')]);
+            ->with(0, $this->callback(function ($arg) {
+                return is_array($arg)
+                    && isset($arg['credentials'])
+                    && $arg['credentials'] instanceof Reference
+                    && (string) $arg['credentials'] === 'aws_sdk';
+            }));
 
         $extension->load([$config], $container);
     }
