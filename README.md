@@ -15,7 +15,7 @@ requiring the`aws/aws-sdk-php-symfony` package in your project's `composer.json`
 ```json
 {
     "require": {
-        "aws/aws-sdk-php-symfony": "~0.1"
+        "aws/aws-sdk-php-symfony": "~1.0"
     }
 }
 ```
