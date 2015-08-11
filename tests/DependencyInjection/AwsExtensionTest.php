@@ -19,8 +19,7 @@ class AwsExtensionTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $format = getenv('AWS_BUNDLE_FORMAT_UNDER_TEST') ?: 'yml';
-        $kernel = new AppKernel('test', true, $format);
+        $kernel = new AppKernel('test', true);
         $kernel->boot();
 
         $this->container = $kernel->getContainer();
