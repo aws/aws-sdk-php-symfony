@@ -7,9 +7,8 @@ php:
   - hhvm
 
 env:
-  - AWS_BUNDLE_FORMAT_UNDER_TEST="yml"
-  - AWS_BUNDLE_FORMAT_UNDER_TEST="php"
-  - AWS_BUNDLE_FORMAT_UNDER_TEST="xml"
+  - COMPOSER_OPTS=""
+  - COMPOSER_OPTS="--prefer-lowest"
 
 sudo: false
 
