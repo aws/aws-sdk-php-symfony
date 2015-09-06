@@ -50,10 +50,9 @@ class AwsExtension extends Extension
             class_exists($clientClass) ? $clientClass : AwsClient::class
         );
 
-        $serviceDefinition->setFactory([
-            new Reference('aws_sdk'),
-            'create' . $name,
-        ]);
+        $serviceDefinition
+            ->setFactoryService('aws_sdk')
+            ->setFactoryMethod('create' . $name);
 
         return $serviceDefinition;
     }
