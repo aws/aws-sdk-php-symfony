@@ -32,7 +32,6 @@ class AppKernel extends Kernel
             new \Aws\Symfony\AwsBundle(),
         ];
     }
-    
     ...
 }
 ```
