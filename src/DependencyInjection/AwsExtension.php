@@ -50,9 +50,17 @@ class AwsExtension extends Extension
             class_exists($clientClass) ? $clientClass : AwsClient::class
         );
 
-        $serviceDefinition
-            ->setFactoryService('aws_sdk')
-            ->setFactoryMethod('create' . $name);
+        // Handle Symfony >= 2.6
+        if (method_exists($serviceDefinition, 'setFactory')) {
+            $serviceDefinition->setFactory([
+                new Reference('aws_sdk'),
+                'create' . $name,
+            ]);
+        } else {
+            $serviceDefinition
+                ->setFactoryService('aws_sdk')
+                ->setFactoryMethod('create' . $name);
+        }
 
         return $serviceDefinition;
     }
