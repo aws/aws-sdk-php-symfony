@@ -12,15 +12,15 @@
     ],
     "require": {
         "php": ">=5.5",
-        "aws/aws-sdk-php": "^3.2.6",
-        "symfony/config": "~2.3",
-        "symfony/dependency-injection": "~2.3",
-        "symfony/http-kernel": "~2.3"
+        "aws/aws-sdk-php": "^3.11.2",
+        "symfony/config": "^2.7",
+        "symfony/dependency-injection": "^2.7",
+        "symfony/http-kernel": "^2.7"
     },
     "require-dev": {
         "phpunit/phpunit": "~4.7",
-        "symfony/framework-bundle": "~2.3",
-        "symfony/yaml": "~2.3"
+        "symfony/framework-bundle": "^2.7",
+        "symfony/yaml": "^2.7"
     },
     "autoload": {
         "psr-4": {
