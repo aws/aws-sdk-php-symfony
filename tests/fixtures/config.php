@@ -23,7 +23,7 @@ $container->loadFromExtension('aws', [
         'credentials' => new Reference('a_service'), // '@a_service' would also work in a PHP config
     ],
     'CloudSearchDomain' => [
-        'endpoint' => 'http://search-with-some-subdomain.us-east-1.cloudsearch.amazonaws.com',
+        'endpoint' => 'https://search-with-some-subdomain.us-east-1.cloudsearch.amazonaws.com',
     ],
 ]);
 

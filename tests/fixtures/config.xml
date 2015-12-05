@@ -11,7 +11,7 @@
                 secret="@@not-a-real-secret"
                 /> <!-- secret will be escaped as '@not-a-real-secret '-->
         <aws:CloudSearchDomain
-                endpoint="http://search-with-some-subdomain.us-east-1.cloudsearch.amazonaws.com"
+                endpoint="https://search-with-some-subdomain.us-east-1.cloudsearch.amazonaws.com"
                 />
         <aws:DynamoDb region="us-west-2"/>
         <aws:S3 version="2006-03-01"/>
