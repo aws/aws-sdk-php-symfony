@@ -50,6 +50,36 @@ you will need to escape it by adding another `@` sign.
 
 Sample configuration can be found in the `tests/fixtures` folder for [YAML](https://github.com/aws/aws-sdk-php-symfony/blob/master/tests/fixtures/config.yml), [PHP](https://github.com/aws/aws-sdk-php-symfony/blob/master/tests/fixtures/config.php), and [XML](https://github.com/aws/aws-sdk-php-symfony/blob/master/tests/fixtures/config.xml).
 
+### Sample YML Configuration
+
+The sample configuration which can be placed in `app/config/config.yml` file.
+
+```yaml
+framework:
+    secret: "Rosebud was the name of his sled."
+
+aws:
+    version: latest
+    region: us-east-1
+    credentials:
+        key: not-a-real-key
+        secret: "@@not-a-real-secret" # this will be escaped as '@not-a-real-secret'
+    DynamoDb:
+        region: us-west-2
+    S3:
+        version: '2006-03-01'
+    Sqs:
+        credentials: "@a_service"
+    CloudSearchDomain:
+        endpoint: https://search-with-some-subdomain.us-east-1.cloudsearch.amazonaws.com
+
+services:
+    a_service:
+        class: Aws\Credentials\Credentials
+        arguments:
+            - a-different-fake-key
+            - a-different-fake-secret
+```
 ## Usage
 
 This bundle exposes an instance of the `Aws\Sdk` object as well as instances of 
