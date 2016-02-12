@@ -128,15 +128,7 @@ class AwsExtensionTest extends \PHPUnit_Framework_TestCase
     {
         $services = [];
 
-        $awsRoot = dirname((new ReflectionClass(Sdk::class))->getFileName());
-        $manifestFile = implode(DIRECTORY_SEPARATOR, [$awsRoot, 'data', 'manifest.json']);
-
-        $this->assertFileExists($manifestFile);
-
-        $manifest = json_decode(file_get_contents($manifestFile), true);
-        $namespaces = array_column($manifest, 'namespace');
-
-        foreach ($namespaces as $serviceNamespace) {
+        foreach (array_column(\Aws\manifest(), 'namespace') as $serviceNamespace) {
             $clientClass = "Aws\\{$serviceNamespace}\\{$serviceNamespace}Client";
             $services []= [
                 $serviceNamespace,
