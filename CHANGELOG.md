@@ -1,6 +1,7 @@
 # CHANGELOG
 
 ## 1.1.0 - 2015-12-10
+
 * Added support for Symfony ~3.0.
 * Fixed deprecation warnings being thrown on Symfony >= 2.6.
 

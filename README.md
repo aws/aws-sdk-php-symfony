@@ -81,11 +81,21 @@ services:
 ```
 ## Usage
 
-This bundle exposes an instance of the `Aws\Sdk` object as well as instances of 
-each AWS client object as services to your symfony application. The services
-made available depends on which version of the SDK is installed. To view them, 
-run the following command from your application's root directory:
+This bundle exposes an instance of the `Aws\Sdk` object as well as instances of
+each AWS client object as services to your symfony application. They are name 
+`aws.{$namespace}`, where `$namespace` is the namespace of the service client.
+For instance:
 
+Service | Instance Of
+--- | ---
+aws.dynamodb | Aws\DynamoDb\DynamoDbClient
+aws.ec2 | Aws\Ec2\Ec2Client
+aws.s3 | Aws\S3\S3Client
+aws_sdk | Aws\Sdk
+
+The services made available depends on which version of the SDK is installed. To
+view a full list, run the following command from your application's root 
+directory:
 ```
 php app/console container:debug | grep aws
 ```
