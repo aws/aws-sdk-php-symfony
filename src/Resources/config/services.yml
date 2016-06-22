@@ -3,6 +3,6 @@ parameters:
 
 services:
     aws_sdk:
-        class: %aws_sdk.class%
+        class: "%aws_sdk.class%"
         arguments:
             - ~
