@@ -97,7 +97,7 @@ The services made available depends on which version of the SDK is installed. To
 view a full list, run the following command from your application's root 
 directory:
 ```
-php app/console debug:container | grep aws
+php bin/console debug:container | grep aws
 ```
 
 Full documentation on each of the services listed can be found in the [SDK API 
