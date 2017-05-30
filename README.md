@@ -100,6 +100,14 @@ directory:
 php bin/console debug:container | grep aws
 ```
 
+For example, if your version of the SDK provides Amazon EC2 client, you may be 
+able to access it from within a Symfony controller like so:
+
+```PHP
+/** @var $client Aws\Ec2\Ec2Client **/
+$client = $this->get('aws.ec2');
+```
+
 Full documentation on each of the services listed can be found in the [SDK API 
 docs](http://docs.aws.amazon.com/aws-sdk-php/v3/api/).
 
