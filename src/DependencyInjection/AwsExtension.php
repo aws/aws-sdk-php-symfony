@@ -39,6 +39,9 @@ class AwsExtension extends Extension
                 'aws.' . strtolower($awsService),
                 $this->createServiceDefinition($awsService)
             );
+            
+            // Handle Symfony >= 3.3
+            $container->setAlias("Aws\\{$awsService}\\{$awsService}Client", 'aws.' . strtolower($awsService));
         }
     }
 
