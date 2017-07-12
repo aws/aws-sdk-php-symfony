@@ -17,6 +17,12 @@ aws:
         endpoint: https://search-with-some-subdomain.us-east-1.cloudsearch.amazonaws.com
 
 services:
+    'Aws\DynamoDb\DynamoDbClient':
+        class: Aws\DynamoDb\DynamoDbClient
+        arguments:
+            -
+                region: eu-central-1
+                version: '2012-08-10'
     a_service:
         class: Aws\Credentials\Credentials
         arguments:

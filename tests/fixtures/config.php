@@ -1,5 +1,6 @@
 <?php
 
+use Aws\DynamoDb\DynamoDbClient;
 use Symfony\Component\DependencyInjection\Reference;
 
 $container->loadFromExtension('framework', [
@@ -31,3 +32,10 @@ $container
     ->register('a_service', 'Aws\\Credentials\\Credentials')
     ->addArgument('a-different-fake-key')
     ->addArgument('a-different-fake-secret');
+
+$container
+    ->register(DynamoDbClient::class, DynamoDbClient::class)
+    ->addArgument([
+        'region' => 'eu-central-1',
+        'version' => '2012-08-10',
+    ]);

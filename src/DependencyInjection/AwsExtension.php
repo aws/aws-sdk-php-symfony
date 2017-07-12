@@ -35,13 +35,11 @@ class AwsExtension extends Extension
             ]]);
 
         foreach (array_column(Aws\manifest(), 'namespace') as $awsService) {
-            $container->setDefinition(
-                'aws.' . strtolower($awsService),
-                $this->createServiceDefinition($awsService)
-            );
-            
-            // Handle Symfony >= 3.3
-            $container->setAlias("Aws\\{$awsService}\\{$awsService}Client", 'aws.' . strtolower($awsService));
+            $serviceName = 'aws.' . strtolower($awsService);
+            $serviceDefinition = $this->createServiceDefinition($awsService);
+            $container->setDefinition($serviceName, $serviceDefinition);
+
+            $container->setAlias($serviceDefinition->getClass(), $serviceName);
         }
     }
 

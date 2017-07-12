@@ -4,13 +4,12 @@ namespace Aws\Symfony\DependencyInjection;
 
 use AppKernel;
 use Aws\AwsClient;
-use Aws\Sdk;
-use ReflectionClass;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\DependencyInjection\Reference;
 
-class AwsExtensionTest extends \PHPUnit_Framework_TestCase
+class AwsExtensionTest extends TestCase
 {
     /**
      * @var ContainerInterface
@@ -81,7 +80,9 @@ class AwsExtensionTest extends \PHPUnit_Framework_TestCase
             'key' => '@@key',
             'secret' => '@@secret'
         ]];
-        $container = $this->getMock(ContainerBuilder::class, ['getDefinition', 'replaceArgument']);
+        $container = $this->getMockBuilder(ContainerBuilder::class)
+            ->setMethods(['getDefinition', 'replaceArgument'])
+            ->getMock();
         $container->expects($this->once())
             ->method('getDefinition')
             ->with('aws_sdk')
@@ -107,7 +108,9 @@ class AwsExtensionTest extends \PHPUnit_Framework_TestCase
     {
         $extension = new AwsExtension;
         $config = ['credentials' => '@aws_sdk'];
-        $container = $this->getMock(ContainerBuilder::class, ['getDefinition', 'replaceArgument']);
+        $container = $this->getMockBuilder(ContainerBuilder::class)
+            ->setMethods(['getDefinition', 'replaceArgument'])
+            ->getMock();
         $container->expects($this->once())
             ->method('getDefinition')
             ->with('aws_sdk')
@@ -155,6 +158,22 @@ class AwsExtensionTest extends \PHPUnit_Framework_TestCase
                 ];
             },
             $this->serviceProvider()
+        );
+    }
+
+    /**
+     * @test
+     *
+     * @dataProvider serviceProvider
+     */
+    public function extension_should_load_services_by_class_name(
+        $webServiceName,
+        $containerServiceName,
+        $clientClassName
+    ) {
+        $this->assertInstanceOf(
+            $clientClassName,
+            $this->container->get($clientClassName)
         );
     }
 }
