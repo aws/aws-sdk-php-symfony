@@ -18,10 +18,21 @@
         <aws:Sqs credentials="@a_service"/>
     </aws:config>
 
+    <parameters>
+        <parameter key="dynamodb_client_config" type="collection">
+            <parameter key="region">eu-central-1</parameter>
+            <parameter key="version">2012-08-10</parameter>
+        </parameter>
+    </parameters>
+
     <services>
         <service id="a_service" class="Aws\Credentials\Credentials">
             <argument>a-different-fake-key</argument>
             <argument>a-different-fake-secret</argument>
+        </service>
+
+        <service id="Aws\DynamoDb\DynamoDbClient" class="Aws\DynamoDb\DynamoDbClient">
+            <argument>%dynamodb_client_config%</argument>
         </service>
     </services>
 </container>

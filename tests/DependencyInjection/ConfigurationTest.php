@@ -1,11 +1,11 @@
 <?php
 namespace Aws\Symfony\DependencyInjection;
 
-
 use AppKernel;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\Filesystem\Filesystem;
 
-class ConfigurationTest extends \PHPUnit_Framework_TestCase
+class ConfigurationTest extends TestCase
 {
     public function setUp()
     {
