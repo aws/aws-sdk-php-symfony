@@ -2,6 +2,7 @@
     "name": "aws/aws-sdk-php-symfony",
     "description": "A Symfony bundle for v3 of the AWS SDK for PHP",
     "keywords": [ "aws", "amazon", "symfony", "symfony2", "symfony3", "sdk"],
+    "type": "symfony-bundle",
     "minimum-stability": "stable",
     "license": "Apache-2.0",
     "authors": [
