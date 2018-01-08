@@ -16,6 +16,8 @@
         <aws:DynamoDb region="us-west-2"/>
         <aws:S3 version="2006-03-01"/>
         <aws:Sqs credentials="@a_service"/>
+        <aws:Lambda region="us-central-1"/>
+        <aws:CodeDeploy region="us-west-2"/>
     </aws:config>
 
     <parameters>
@@ -33,6 +35,12 @@
 
         <service id="Aws\DynamoDb\DynamoDbClient" class="Aws\DynamoDb\DynamoDbClient">
             <argument>%dynamodb_client_config%</argument>
+        </service>
+
+        <service id="test_service" class="Aws\Symfony\fixtures\TestService" public="true">
+            <argument type="service" id="aws.s3" />
+            <argument type="service" id="aws.lambda" />
+            <argument type="service" id="aws.codedeploy" />
         </service>
     </services>
 </container>

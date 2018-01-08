@@ -2,6 +2,9 @@
 namespace Aws\Symfony\DependencyInjection;
 
 use AppKernel;
+use Aws\DynamoDb\DynamoDbClient;
+use Aws\Lambda\LambdaClient;
+use Aws\S3\S3Client;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Filesystem\Filesystem;
 
@@ -29,7 +32,11 @@ class ConfigurationTest extends TestCase
         $kernel = new AppKernel('test', true, $format);
         $kernel->boot();
 
-        $this->assertTrue($kernel->getContainer()->has('aws_sdk'));
+        $testService = $kernel->getContainer()->get('test_service');
+
+        $this->assertInstanceOf(S3Client::class, $testService->getS3Client());
+        $this->assertInstanceOf(LambdaClient::class, $testService->getLambdaClient());
+        $this->assertNotInstanceOf(DynamoDbClient::class, $testService->getCodeDeployClient());
     }
 
     public function formatProvider()

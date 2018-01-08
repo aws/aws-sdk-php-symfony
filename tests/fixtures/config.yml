@@ -13,6 +13,10 @@ aws:
         version: '2006-03-01'
     Sqs:
         credentials: "@a_service"
+    Lambda:
+        region: us-central-1
+    CodeDeploy:
+        region: us-west-2
     CloudSearchDomain:
         endpoint: https://search-with-some-subdomain.us-east-1.cloudsearch.amazonaws.com
 
@@ -28,3 +32,11 @@ services:
         arguments:
             - a-different-fake-key
             - a-different-fake-secret
+
+    test_service:
+        class: Aws\Symfony\fixtures\TestService
+        public: true
+        arguments:
+            - '@aws.s3'
+            - '@aws.lambda'
+            - '@aws.codedeploy'
