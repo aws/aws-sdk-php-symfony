@@ -20,6 +20,12 @@ $container->loadFromExtension('aws', [
     'S3' => [
         'version' => '2006-03-01',
     ],
+    'Lambda' => [
+        'region' => 'us-central-1'
+    ],
+    'CodeDeploy' => [
+        'region' => 'us-west-2'
+    ],
     'Sqs' =>[
         'credentials' => new Reference('a_service'), // '@a_service' would also work in a PHP config
     ],
@@ -32,6 +38,13 @@ $container
     ->register('a_service', 'Aws\\Credentials\\Credentials')
     ->addArgument('a-different-fake-key')
     ->addArgument('a-different-fake-secret');
+
+$container
+    ->register('test_service', 'Aws\\Symfony\\fixtures\\TestService')
+    ->setPublic(true)
+    ->addArgument(new Reference('aws.s3'))
+    ->addArgument(new Reference('aws.lambda'))
+    ->addArgument(new Reference('aws.codedeploy'));
 
 $container
     ->register(DynamoDbClient::class, DynamoDbClient::class)
