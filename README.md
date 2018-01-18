@@ -2,8 +2,8 @@
 
 [![@awsforphp on Twitter](http://img.shields.io/badge/twitter-%40awsforphp-blue.svg?style=flat)](https://twitter.com/awsforphp)
 [![Build Status](https://travis-ci.org/aws/aws-sdk-php-symfony.svg)](https://travis-ci.org/aws/aws-sdk-php-symfony)
-[![Latest Stable Version](https://poser.pugx.org/aws/aws-sdk-php-symfony/v/stable.png)](https://packagist.org/packages/aws/aws-sdk-php-symfony)
-[![Total Downloads](https://poser.pugx.org/aws/aws-sdk-php-symfony/downloads.png)](https://packagist.org/packages/aws/aws-sdk-php-symfony)
+[![Latest Stable Version](https://img.shields.io/packagist/v/aws/aws-sdk-php-symfony.svg)](https://packagist.org/packages/aws/aws-sdk-php-symfony)
+[![Total Downloads](https://img.shields.io/packagist/dt/aws/aws-sdk-php-symfony.svg)](https://packagist.org/packages/aws/aws-sdk-php-symfony)
 
 A Symfony bundle for including the [AWS SDK for PHP](https://github.com/aws/aws-sdk-php).
 
@@ -15,7 +15,7 @@ requiring the`aws/aws-sdk-php-symfony` package in your project's `composer.json`
 ```json
 {
     "require": {
-        "aws/aws-sdk-php-symfony": "~1.0"
+        "aws/aws-sdk-php-symfony": "~2.0"
     }
 }
 ```
