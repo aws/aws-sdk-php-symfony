@@ -53,17 +53,15 @@ class AwsExtension extends Extension
 
         // Handle Symfony >= 2.6
         if (method_exists($serviceDefinition, 'setFactory')) {
-            $serviceDefinition->setFactory([
+            return $serviceDefinition->setFactory([
                 new Reference('aws_sdk'),
                 'create' . $name,
             ]);
-        } else {
-            $serviceDefinition
-                ->setFactoryService('aws_sdk')
-                ->setFactoryMethod('create' . $name);
         }
 
-        return $serviceDefinition;
+        return $serviceDefinition
+                ->setFactoryService('aws_sdk')
+                ->setFactoryMethod('create' . $name);
     }
 
     private function inflateServicesInConfig(array &$config)
