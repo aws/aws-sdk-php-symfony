@@ -37,6 +37,7 @@ class AwsExtension extends Extension
         foreach (array_column(Aws\manifest(), 'namespace') as $awsService) {
             $serviceName = 'aws.' . strtolower($awsService);
             $serviceDefinition = $this->createServiceDefinition($awsService);
+            $serviceDefinition->setPublic(true);
             $container->setDefinition($serviceName, $serviceDefinition);
 
             $container->setAlias($serviceDefinition->getClass(), $serviceName);
