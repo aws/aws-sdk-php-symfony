@@ -23,6 +23,9 @@ matrix:
 
 sudo: false
 
+before_install:
+  - echo "memory_limit=3G" >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
+
 install: travis_retry composer install --no-interaction --prefer-source
 
 script: vendor/bin/phpunit
