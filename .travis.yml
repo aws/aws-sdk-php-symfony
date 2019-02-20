@@ -9,6 +9,7 @@ php:
   - 7.2
   - 7.3
   - hhvm
+  - nightly
 
 env:
   - COMPOSER_OPTS=""
@@ -17,6 +18,7 @@ env:
 matrix:
   allow_failures:
     - php: hhvm
+    - php: nightly
   fast_finish: true
 
 sudo: false
