@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## 2.0.1 - 2019-02-26
+
+* Fixed deprecation for symfony/config 4.2+
+* Tweaked Readme usage syntax
+* Updated travis CI configuration
+
 ## 2.0.0 - 2018-01-18
 
 * Added support for Symfony ~4.0
