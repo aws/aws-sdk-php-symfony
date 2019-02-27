@@ -7,7 +7,9 @@ php:
   - 7.0
   - 7.1
   - 7.2
+  - 7.3
   - hhvm
+  - nightly
 
 env:
   - COMPOSER_OPTS=""
@@ -16,9 +18,13 @@ env:
 matrix:
   allow_failures:
     - php: hhvm
+    - php: nightly
   fast_finish: true
 
 sudo: false
+
+before_install:
+  - echo "memory_limit=3G" >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
 
 install: travis_retry composer install --no-interaction --prefer-source
 
