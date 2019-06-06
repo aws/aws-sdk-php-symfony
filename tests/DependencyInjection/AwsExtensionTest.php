@@ -121,4 +121,120 @@ class AwsExtensionTest extends TestCase
 
         $extension->load([$config], $container);
     }
+
+    /**
+     * @test
+     */
+    public function extension_should_validate_and_merge_configs()
+    {
+        putenv('AWS_MERGE_CONFIG=true');
+        $extension = new AwsExtension;
+        $config = [
+            'credentials' => false,
+            'debug' => [
+                'http' => true
+            ],
+            'stats' => [
+                'http' => true
+            ],
+            'retries' => 5,
+            'endpoint' => 'http://localhost:8000',
+            'endpoint_discovery' => [
+                'enabled' => true,
+                'cache_limit' => 1000
+            ],
+            'http' => [
+                'connect_timeout' => 5.5,
+                'debug' => true,
+                'decode_content' => true,
+                'delay' => 1,
+                'expect' => true,
+                'proxy' => 'http://localhost:9000',
+                'sink' => '/path/to/sink',
+                'synchronous' => true,
+                'stream' => true,
+                'timeout' => 3.14,
+                'verify' => '/path/to/ca_cert_bundle'
+            ],
+            'profile' => 'prod',
+            'region' => 'us-west-2',
+            'retries' => 5,
+            'scheme' => 'http',
+            'signature_version' => 'v4',
+            'ua_append' => [
+                'prod',
+                'foo'
+            ],
+            'validate' => [
+                'required' => true
+            ],
+            'version' => 'latest',
+            'S3' => [
+                'version' => '2006-03-01',
+            ]
+        ];
+        $configDev = [
+            'credentials' => '@aws_sdk',
+            'debug' => true,
+            'stats' => true,
+            'ua_append' => 'dev',
+            'validate' => true,
+        ];
+        $container = $this->getMockBuilder(ContainerBuilder::class)
+            ->setMethods(['getDefinition', 'replaceArgument'])
+            ->getMock();
+        $container->expects($this->once())
+            ->method('getDefinition')
+            ->with('aws_sdk')
+            ->willReturnSelf();
+        $container->expects($this->once())
+            ->method('replaceArgument')
+            ->with(0, $this->callback(function ($arg) {
+                return is_array($arg)
+                    && isset($arg['credentials'])
+                    && $arg['credentials'] instanceof Reference
+                    && (string) $arg['credentials'] === 'aws_sdk'
+                    && isset($arg['debug'])
+                    && (bool) $arg['debug'] === true
+                    && isset($arg['stats'])
+                    && (bool) $arg['stats'] === true
+                    && isset($arg['retries'])
+                    && (integer) $arg['retries'] === 5
+                    && isset($arg['endpoint'])
+                    && (string) $arg['endpoint'] === 'http://localhost:8000'
+                    && isset($arg['validate'])
+                    && (bool) $arg['validate'] === true
+                    && isset($arg['endpoint_discovery']['enabled'])
+                    && isset($arg['endpoint_discovery']['cache_limit'])
+                    && (bool) $arg['endpoint_discovery']['enabled'] === true
+                    && (integer) $arg['endpoint_discovery']['cache_limit'] === 1000
+                    && isset($arg['S3']['version'])
+                    && (string) $arg['S3']['version'] === '2006-03-01'
+                ;
+            }));
+
+        $extension->load([$config, $configDev], $container);
+    }
+
+    /**
+     * @test
+     *
+     * @expectedException RuntimeException
+     */
+    public function extension_should_error_merging_unknown_config_options()
+    {
+        putenv('AWS_MERGE_CONFIG=true');
+        $extension = new AwsExtension;
+        $config = [
+            'foo' => 'bar'
+        ];
+        $configDev = [
+            'foo' => 'baz'
+        ];
+        $container = $this->getMockBuilder(ContainerBuilder::class)
+            ->setMethods(['getDefinition', 'replaceArgument'])
+            ->getMock();
+
+        $extension->load([$config, $configDev], $container);
+    }
 }

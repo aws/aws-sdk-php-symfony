@@ -38,9 +38,15 @@ class AppKernel extends Kernel
 
 ## Configuration
 
-Configuration is handled by the SDK rather than by the bundle, and no validation
-is performed at compile time. Full documentation of the configuration options
-available can be read in the [SDK Guide](http://docs.aws.amazon.com/aws-sdk-php/v3/guide/guide/configuration.html).
+By default, configuration is handled by the SDK rather than by the bundle, and
+no validation is performed at compile time. Full documentation of the
+configuration options available can be read in the [SDK Guide](http://docs.aws.amazon.com/aws-sdk-php/v3/guide/guide/configuration.html).
+
+If AWS_MERGE_CONFIG environment variable is set to `true`, configuration
+validation and merging are enabled. The bundle validates and merges known
+configuration options, including for each service.  Additional configuration
+options can be included in a single configuration file, but merging will fail
+if non-standard options are specified in more than once.
 
 To use a service for any configuration value, use `@` followed by the service
 name, such as `@a_service`. This syntax will be converted to a service during
