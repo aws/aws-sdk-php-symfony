@@ -31,8 +31,10 @@ class Configuration implements ConfigurationInterface
             return $treeBuilder;
         }
 
+        $rootNode = $treeBuilder->root('aws');
+
         // Define TreeBuilder to allow config validation and merging
-        $treeBuilder->getRootNode()
+        $rootNode
             ->ignoreExtraKeys(false)
             ->children()
                 ->variableNode('credentials')->end()
@@ -69,7 +71,7 @@ class Configuration implements ConfigurationInterface
 
         //Setup config trees for each of the services
         foreach (array_column(Aws\manifest(), 'namespace') as $awsService) {
-            $treeBuilder->getRootNode()
+            $rootNode
                 ->children()
                     ->arrayNode($awsService)
                         ->ignoreExtraKeys(false)
