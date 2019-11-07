@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 2.0.2 - 2019-11-07
+
+* Mark client service definition as lazy 
+
 ## 2.0.1 - 2019-02-26
 
 * Fixed deprecation for symfony/config 4.2+
