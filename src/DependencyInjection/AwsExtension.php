@@ -60,6 +60,7 @@ class AwsExtension extends Extension
         }
 
         return $serviceDefinition
+                ->setLazy(true)
                 ->setFactoryService('aws_sdk')
                 ->setFactoryMethod('create' . $name);
     }
