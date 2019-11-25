@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 2.1.0 - 2019-11-25
+
+* Added support for Symfony ~5.0
+
 ## 2.0.2 - 2019-11-07
 
 * Mark client service definition as lazy 
