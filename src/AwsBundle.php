@@ -6,5 +6,5 @@ use Symfony\Component\HttpKernel\Bundle\Bundle;
 
 class AwsBundle extends Bundle
 {
-    const VERSION = '2.1.0';
+    const VERSION = '2.2.0';
 }

@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 2.2.0 - 2020-03-05
+
+* Added optional configuration validation and merging via AWS_MERGE_CONFIG env variable.
+
 ## 2.1.0 - 2019-11-25
 
 * Added support for Symfony ~5.0
