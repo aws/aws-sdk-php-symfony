@@ -218,8 +218,6 @@ class AwsExtensionTest extends TestCase
 
     /**
      * @test
-     *
-     * @expectedException RuntimeException
      */
     public function extension_should_error_merging_unknown_config_options()
     {
@@ -235,6 +233,13 @@ class AwsExtensionTest extends TestCase
             ->setMethods(['getDefinition', 'replaceArgument'])
             ->getMock();
 
-        $extension->load([$config, $configDev], $container);
+        try {
+            $extension->load([$config, $configDev], $container);
+            $this->fail('Should have thrown an Error or RuntimeException');
+        } catch (\Exception $e) {
+            $this->assertTrue($e instanceof \RuntimeException);
+        } catch (\Throwable $e) {
+            $this->assertTrue($e instanceof \Error);
+        }
     }
 }
