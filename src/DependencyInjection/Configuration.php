@@ -31,7 +31,11 @@ class Configuration implements ConfigurationInterface
             return $treeBuilder;
         }
 
-        $rootNode = $treeBuilder->root('aws');
+        if (method_exists($treeBuilder, 'root')) {
+            $rootNode = $treeBuilder->root('aws');
+        } else {
+            $rootNode = $treeBuilder->getRootNode();
+        }
 
         // Define TreeBuilder to allow config validation and merging
         $rootNode
