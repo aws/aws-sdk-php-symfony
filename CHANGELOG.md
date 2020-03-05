@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 2.2.1 - 2020-03-05
+
+* Fix issue with different tree builder interface for different symfony versions
+
 ## 2.2.0 - 2020-03-05
 
 * Added optional configuration validation and merging via AWS_MERGE_CONFIG env variable.
