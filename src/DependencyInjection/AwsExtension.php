@@ -55,14 +55,15 @@ class AwsExtension extends Extension
         if (method_exists($serviceDefinition, 'setFactory')) {
             return $serviceDefinition->setFactory([
                 new Reference('aws_sdk'),
-                'create' . $name,
-            ]);
+                'createClient',
+            ])->setArguments([$name]);
         }
 
         return $serviceDefinition
                 ->setLazy(true)
                 ->setFactoryService('aws_sdk')
-                ->setFactoryMethod('create' . $name);
+                ->setFactoryMethod('createClient')
+                ->setArguments([$name]);
     }
 
     private function inflateServicesInConfig(array &$config)
