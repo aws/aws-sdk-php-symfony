@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 2.2.2 - 2020-04-08
+
+* Remove magic method call to support linting command
+
 ## 2.2.1 - 2020-03-05
 
 * Fix issue with different tree builder interface for different symfony versions
