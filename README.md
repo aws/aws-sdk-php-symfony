@@ -12,28 +12,21 @@ A Symfony bundle for including the [AWS SDK for PHP](https://github.com/aws/aws-
 The AWS bundle can be installed via [Composer](http://getcomposer.org) by 
 requiring the`aws/aws-sdk-php-symfony` package in your project's `composer.json`:
 
-```json
-{
-    "require": {
-        "aws/aws-sdk-php-symfony": "~2.0"
-    }
-}
+```sh
+composer require aws/aws-sdk-php-symfony
 ```
 
-and adding an instance of `Aws\Symfony\AwsBundle` to your application's kernel:
+If you are using symfony/flex, then you are already done. 
+If you aren't using symfony/flex, then you need to configure it in the `config/bundles.php` file.
 
 ```php
-class AppKernel extends Kernel
-{
-    public function registerBundles()
-    {
-        return [
-            ...
-            new \Aws\Symfony\AwsBundle(),
-        ];
-    }
-    ...
-}
+<?php
+
+return [
+    // ...
+    Aws\Symfony\AwsBundle::class => ['all' => true],
+];
+
 ```
 
 ## Configuration
@@ -55,36 +48,30 @@ you will need to escape it by adding another `@` sign.
 
 Sample configuration can be found in the `tests/fixtures` folder for [YAML](https://github.com/aws/aws-sdk-php-symfony/blob/master/tests/fixtures/config.yml), [PHP](https://github.com/aws/aws-sdk-php-symfony/blob/master/tests/fixtures/config.php), and [XML](https://github.com/aws/aws-sdk-php-symfony/blob/master/tests/fixtures/config.xml).
 
-### Sample YML Configuration
+### YAML Configuration
 
-The sample configuration which can be placed in `app/config/config.yml` file.
+You can configure the bundle in `config/packages/aws.yaml` (symfony/flex will create the file for you).
 
 ```yaml
-framework:
-    secret: "Rosebud was the name of his sled."
-
 aws:
     version: latest
     region: us-east-1
     credentials:
-        key: not-a-real-key
-        secret: "@@not-a-real-secret" # this will be escaped as '@not-a-real-secret'
-    DynamoDb:
-        region: us-west-2
+        key: "%env(AWS_KEY)%"
+        secret: "%env(AWS_SECRET)%"
+```
+
+You can add different configuration to specific services.
+
+```yaml
+aws:
+    # ... default configuration
+
+    # specific for the s3 service
     S3:
         version: '2006-03-01'
-    Sqs:
-        credentials: "@a_service"
-    CloudSearchDomain:
-        endpoint: https://search-with-some-subdomain.us-east-1.cloudsearch.amazonaws.com
-
-services:
-    a_service:
-        class: Aws\Credentials\Credentials
-        arguments:
-            - a-different-fake-key
-            - a-different-fake-secret
 ```
+
 ## Usage
 
 This bundle exposes an instance of the `Aws\Sdk` object as well as instances of
