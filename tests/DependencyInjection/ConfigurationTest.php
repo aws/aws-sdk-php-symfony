@@ -1,7 +1,8 @@
 <?php
+
 namespace Aws\Symfony\DependencyInjection;
 
-use AppKernel;
+use Aws\Symfony\fixtures\AppKernel;
 use Aws\DynamoDb\DynamoDbClient;
 use Aws\Lambda\LambdaClient;
 use Aws\S3\S3Client;
@@ -10,7 +11,7 @@ use Symfony\Component\Filesystem\Filesystem;
 
 class ConfigurationTest extends TestCase
 {
-    public function setUp()
+    public function setUp(): void
     {
         (new Filesystem)
             ->remove(implode(DIRECTORY_SEPARATOR, [
@@ -25,9 +26,8 @@ class ConfigurationTest extends TestCase
      * @test
      * @dataProvider formatProvider
      *
-     * @param string $format
      */
-    public function container_should_compile_and_load($format)
+    public function container_should_compile_and_load(string $format)
     {
         $kernel = new AppKernel('test', true, $format);
         $kernel->boot();

@@ -2,7 +2,7 @@
 
 namespace Aws\Symfony\DependencyInjection;
 
-use AppKernel;
+use Aws\Symfony\fixtures\AppKernel;
 use Aws\AwsClient;
 use Aws\CodeDeploy\CodeDeployClient;
 use Aws\Lambda\LambdaClient;
@@ -10,21 +10,15 @@ use Aws\S3\S3Client;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Reference;
 
 class AwsExtensionTest extends TestCase
 {
-    /**
-     * @var AppKernel
-     */
-    protected $kernel;
+    protected AppKernel $kernel;
+    protected ContainerInterface $container;
 
-    /**
-     * @var ContainerInterface
-     */
-    protected $container;
-
-    public function setUp()
+    public function setUp(): void
     {
         $this->kernel = new AppKernel('test', true);
         $this->kernel->boot();
@@ -37,10 +31,10 @@ class AwsExtensionTest extends TestCase
      */
     public function sdk_config_should_be_passed_directly_to_the_constructor_and_resolved_by_the_sdk()
     {
-        $config           = $this->kernel->getTestConfig()['aws'];
-        $s3Region         = isset($config['S3']['region']) ? $config['S3']['region'] : $config['region'];
-        $lambdaRegion     = isset($config['Lambda']['region']) ? $config['Lambda']['region'] : $config['region'];
-        $codeDeployRegion = isset($config['CodeDeploy']['region']) ? $config['CodeDeploy']['region'] : $config['region'];
+        $config = $this->kernel->getTestConfig()['aws'];
+        $s3Region = $config['S3']['region'] ?? $config['region'];
+        $lambdaRegion = $config['Lambda']['region'] ?? $config['region'];
+        $codeDeployRegion = $config['CodeDeploy']['region'] ?? $config['region'];
 
         $testService = $this->container->get('test_service');
 
@@ -53,7 +47,8 @@ class AwsExtensionTest extends TestCase
      * @test
      *
      */
-    public function all_web_services_in_sdk_manifest_should_be_accessible_as_container_services() {
+    public function all_web_services_in_sdk_manifest_should_be_accessible_as_container_services()
+    {
         $testService = $this->container->get('test_service');
 
         $this->assertInstanceOf(S3Client::class, $testService->getS3Client());
@@ -78,11 +73,12 @@ class AwsExtensionTest extends TestCase
         $container = $this->getMockBuilder(ContainerBuilder::class)
             ->setMethods(['getDefinition', 'replaceArgument'])
             ->getMock();
+        $definition = $this->createMock(Definition::class);
         $container->expects($this->once())
             ->method('getDefinition')
             ->with('aws_sdk')
-            ->willReturnSelf();
-        $container->expects($this->once())
+            ->willReturn($definition);
+        $definition->expects($this->once())
             ->method('replaceArgument')
             ->with(0, $this->callback(function ($arg) {
                 return is_array($arg)
@@ -106,17 +102,18 @@ class AwsExtensionTest extends TestCase
         $container = $this->getMockBuilder(ContainerBuilder::class)
             ->setMethods(['getDefinition', 'replaceArgument'])
             ->getMock();
+        $definition = $this->createMock(Definition::class);
         $container->expects($this->once())
             ->method('getDefinition')
             ->with('aws_sdk')
-            ->willReturnSelf();
-        $container->expects($this->once())
+            ->willReturn($definition);
+        $definition->expects($this->once())
             ->method('replaceArgument')
             ->with(0, $this->callback(function ($arg) {
                 return is_array($arg)
                     && isset($arg['credentials'])
                     && $arg['credentials'] instanceof Reference
-                    && (string) $arg['credentials'] === 'aws_sdk';
+                    && (string)$arg['credentials'] === 'aws_sdk';
             }));
 
         $extension->load([$config], $container);
@@ -158,7 +155,6 @@ class AwsExtensionTest extends TestCase
             ],
             'profile' => 'prod',
             'region' => 'us-west-2',
-            'retries' => 5,
             'scheme' => 'http',
             'signature_version' => 'v4',
             'ua_append' => [
@@ -183,34 +179,34 @@ class AwsExtensionTest extends TestCase
         $container = $this->getMockBuilder(ContainerBuilder::class)
             ->setMethods(['getDefinition', 'replaceArgument'])
             ->getMock();
+        $definition = $this->createMock(Definition::class);
         $container->expects($this->once())
             ->method('getDefinition')
             ->with('aws_sdk')
-            ->willReturnSelf();
-        $container->expects($this->once())
+            ->willReturn($definition);
+        $definition->expects($this->once())
             ->method('replaceArgument')
             ->with(0, $this->callback(function ($arg) {
                 return is_array($arg)
                     && isset($arg['credentials'])
                     && $arg['credentials'] instanceof Reference
-                    && (string) $arg['credentials'] === 'aws_sdk'
+                    && (string)$arg['credentials'] === 'aws_sdk'
                     && isset($arg['debug'])
-                    && (bool) $arg['debug'] === true
+                    && (bool)$arg['debug'] === true
                     && isset($arg['stats'])
-                    && (bool) $arg['stats'] === true
+                    && (bool)$arg['stats'] === true
                     && isset($arg['retries'])
-                    && (integer) $arg['retries'] === 5
+                    && (integer)$arg['retries'] === 5
                     && isset($arg['endpoint'])
-                    && (string) $arg['endpoint'] === 'http://localhost:8000'
+                    && (string)$arg['endpoint'] === 'http://localhost:8000'
                     && isset($arg['validate'])
-                    && (bool) $arg['validate'] === true
+                    && (bool)$arg['validate'] === true
                     && isset($arg['endpoint_discovery']['enabled'])
                     && isset($arg['endpoint_discovery']['cache_limit'])
-                    && (bool) $arg['endpoint_discovery']['enabled'] === true
-                    && (integer) $arg['endpoint_discovery']['cache_limit'] === 1000
+                    && (bool)$arg['endpoint_discovery']['enabled'] === true
+                    && (integer)$arg['endpoint_discovery']['cache_limit'] === 1000
                     && isset($arg['S3']['version'])
-                    && (string) $arg['S3']['version'] === '2006-03-01'
-                ;
+                    && (string)$arg['S3']['version'] === '2006-03-01';
             }));
 
         $extension->load([$config, $configDev], $container);

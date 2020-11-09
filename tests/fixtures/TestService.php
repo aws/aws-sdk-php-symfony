@@ -8,58 +8,37 @@ use Aws\S3\S3Client;
 
 class TestService
 {
-    /** @var S3Client */
-    protected $s3Client;
+    protected S3Client $s3Client;
+    protected LambdaClient $lambdaClient;
+    protected CodeDeployClient $codeDeployClient;
 
-    /** @var LambdaClient */
-    protected $lambdaClient;
-
-    /** @var CodeDeployClient */
-    protected $codeDeployClient;
-
-    /**
-     * @param S3Client $s3Client
-     * @param LambdaClient $lambdaClient
-     * @param CodeDeployClient $codeDeployClient
-     */
     public function __construct(
-        S3Client $s3Client,
-        LambdaClient $lambdaClient,
+        S3Client         $s3Client,
+        LambdaClient     $lambdaClient,
         CodeDeployClient $codeDeployClient
-    ) {
-        $this->s3Client         = $s3Client;
-        $this->lambdaClient     = $lambdaClient;
+    )
+    {
+        $this->s3Client = $s3Client;
+        $this->lambdaClient = $lambdaClient;
         $this->codeDeployClient = $codeDeployClient;
     }
 
-    /**
-     * @return S3Client
-     */
-    public function getS3Client()
+    public function getS3Client(): S3Client
     {
         return $this->s3Client;
     }
 
-    /**
-     * @return LambdaClient
-     */
-    public function getLambdaClient()
+    public function getLambdaClient(): LambdaClient
     {
         return $this->lambdaClient;
     }
 
-    /**
-     * @return CodeDeployClient
-     */
-    public function getCodeDeployClient()
+    public function getCodeDeployClient(): CodeDeployClient
     {
         return $this->codeDeployClient;
     }
 
-    /**
-     * @return array
-     */
-    public function getClients()
+    public function getClients(): array
     {
         return [
             $this->s3Client,
