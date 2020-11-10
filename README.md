@@ -56,6 +56,12 @@ configuration options, including for each service.  Additional configuration
 options can be included in a single configuration file, but merging will fail
 if non-standard options are specified in more than once.
 
+When using the SDK from an EC2 instance, you can write `credentials: ~` to use
+[instance profile credentials](https://docs.aws.amazon.com/aws-sdk-php/v3/guide/guide/credentials.html#instance-profile-credentials).
+This syntax means that temporary credentials will be automatically retrieved
+from the EC2 instance's metadata server. It's also the preferred technique for
+providing credentials to applications running on that specific context.
+
 To use a service for any configuration value, use `@` followed by the service
 name, such as `@a_service`. This syntax will be converted to a service during
 container compilation. If you want to use a string literal that begins with `@`,
