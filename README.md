@@ -8,10 +8,10 @@
 A Symfony bundle for including the [AWS SDK for PHP](https://github.com/aws/aws-sdk-php).
 
 Jump To:
-* [Getting Started](_#Getting-Started_)
-* [Getting Help](_#Getting-Help_)
-* [Contributing](_#Contributing_)
-* [More Resources](_#Resources_)
+* [Getting Started](_#getting-started_)
+* [Getting Help](_#getting-Help_)
+* [Contributing](_#contributing_)
+* [More Resources](_#resources_)
 
 ## Getting Started
 
