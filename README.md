@@ -17,7 +17,7 @@ Jump To:
 
 ### Installation
 
-The AWS bundle can be installed via [Composer](http://getcomposer.org) by 
+The AWS bundle can be installed via [Composer](http://getcomposer.org) by
 requiring the`aws/aws-sdk-php-symfony` package in your project's `composer.json`:
 
 ```json
@@ -61,6 +61,12 @@ name, such as `@a_service`. This syntax will be converted to a service during
 container compilation. If you want to use a string literal that begins with `@`,
 you will need to escape it by adding another `@` sign.
 
+When using the SDK from an EC2 instance, you can write `credentials: ~` to use
+[instance profile credentials](https://docs.aws.amazon.com/sdk-for-php/v3/developer-guide/guide_credentials.html#instance-profile-credentials).
+This syntax means that temporary credentials will be automatically retrieved
+from the EC2 instance's metadata server. It's also the preferred technique for
+providing credentials to applications running on that specific context.
+
 Sample configuration can be found in the `tests/fixtures` folder for [YAML](https://github.com/aws/aws-sdk-php-symfony/blob/master/tests/fixtures/config.yml), [PHP](https://github.com/aws/aws-sdk-php-symfony/blob/master/tests/fixtures/config.php), and [XML](https://github.com/aws/aws-sdk-php-symfony/blob/master/tests/fixtures/config.xml).
 
 #### Sample YML Configuration
@@ -97,7 +103,7 @@ services:
 ### Usage
 
 This bundle exposes an instance of the `Aws\Sdk` object as well as instances of
-each AWS client object as services to your symfony application. They are name 
+each AWS client object as services to your symfony application. They are name
 `aws.{$namespace}`, where `$namespace` is the namespace of the service client.
 For instance:
 
@@ -109,13 +115,13 @@ aws.s3 | Aws\S3\S3Client
 aws_sdk | Aws\Sdk
 
 The services made available depends on which version of the SDK is installed. To
-view a full list, run the following command from your application's root 
+view a full list, run the following command from your application's root
 directory:
 ```
 php bin/console debug:container aws
 ```
 
-Full documentation on each of the services listed can be found in the [SDK API 
+Full documentation on each of the services listed can be found in the [SDK API
 docs](http://docs.aws.amazon.com/aws-sdk-php/v3/api/).
 
 ## Getting Help
