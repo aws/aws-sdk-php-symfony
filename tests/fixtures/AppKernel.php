@@ -1,5 +1,7 @@
 <?php
 
+namespace Aws\Symfony\fixtures;
+
 use Aws\Symfony\AwsBundle;
 use Symfony\Bundle\FrameworkBundle\FrameworkBundle;
 use Symfony\Component\Config\Loader\LoaderInterface;
@@ -8,7 +10,7 @@ use Symfony\Component\Yaml\Yaml;
 
 class AppKernel extends Kernel
 {
-    private $extension;
+    private mixed $extension;
 
     public function __construct($env, $debug, $extension = 'yml')
     {
@@ -16,7 +18,7 @@ class AppKernel extends Kernel
         parent::__construct($env, $debug);
     }
 
-    public function registerBundles()
+    public function registerBundles(): iterable
     {
         return [
             new FrameworkBundle(),
@@ -35,7 +37,7 @@ class AppKernel extends Kernel
     }
 
 
-    private function getTestConfigFile($extension)
+    private function getTestConfigFile($extension): string
     {
         return __DIR__ . '/config.' . $extension;
     }
