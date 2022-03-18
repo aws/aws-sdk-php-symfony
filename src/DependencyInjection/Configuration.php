@@ -11,7 +11,7 @@ class Configuration implements ConfigurationInterface
     public function getConfigTreeBuilder()
     {
         // Maintain backwars compatibility, only merge when AWS_MERGE_CONFIG is set
-        $mergeConfig = getenv('AWS_MERGE_CONFIG') ?: false;
+        $mergeConfig = isset($_ENV['AWS_MERGE_CONFIG'])? $_ENV['AWS_MERGE_CONFIG'] : false;
         $treeType = 'variable';
 
         if ($mergeConfig) {
