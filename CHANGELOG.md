@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## 2.3.0 - 2022-03-29
+
+* Added support for Symfony ~6.0
+* Moved Travis tests to Github actions
+
 ## 2.2.2 - 2020-04-08
 
 * Remove magic method call to support linting command
