@@ -1,4 +1,8 @@
 # CHANGELOG
+## 2.4.0 - 2022-04-13
+
+* Upgrade minimum version of PHPUnit
+* Mark client service definition as lazy
 
 ## 2.3.0 - 2022-03-29
 
