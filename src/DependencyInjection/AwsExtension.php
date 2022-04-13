@@ -51,6 +51,8 @@ class AwsExtension extends Extension
             class_exists($clientClass) ? $clientClass : AwsClient::class
         );
 
+        $serviceDefinition->setLazy(true);
+
         // Handle Symfony >= 2.6
         if (method_exists($serviceDefinition, 'setFactory')) {
             return $serviceDefinition->setFactory([
@@ -60,7 +62,6 @@ class AwsExtension extends Extension
         }
 
         return $serviceDefinition
-                ->setLazy(true)
                 ->setFactoryService('aws_sdk')
                 ->setFactoryMethod('createClient')
                 ->setArguments([$name]);
