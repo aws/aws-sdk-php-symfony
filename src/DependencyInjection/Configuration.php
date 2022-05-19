@@ -11,7 +11,7 @@ class Configuration implements ConfigurationInterface
     public function getConfigTreeBuilder()
     {
         // Maintain backwars compatibility, only merge when AWS_MERGE_CONFIG is set
-        $mergeConfig = getenv('AWS_MERGE_CONFIG') ?: false;
+        $mergeConfig = $this->shouldMergeConfig();
         $treeType = 'variable';
 
         if ($mergeConfig) {
@@ -116,5 +116,22 @@ class Configuration implements ConfigurationInterface
         }
 
         return $treeBuilder;
+    }
+
+    protected function shouldMergeConfig()
+    {
+        # works with symfony/dotenv
+        if (isset($_ENV['AWS_MERGE_CONFIG'])) {
+            return $_ENV['AWS_MERGE_CONFIG'];
+        }
+
+        # works with case-insensitive names on windows and doesn't work with symfony/dotenv
+        $mergeConfig = getenv('AWS_MERGE_CONFIG');
+
+        if ($mergeConfig) {
+            @trigger_error('Since aws/aws-sdk-php-symfony 2.5.0: Support for case-insensitive AWS_MERGE_CONFIG is deprecated and will be removed in 3.0.0', \E_USER_DEPRECATED);
+        }
+
+        return $mergeConfig;
     }
 }
