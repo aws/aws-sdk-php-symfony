@@ -129,7 +129,11 @@ class Configuration implements ConfigurationInterface
         $mergeConfig = getenv('AWS_MERGE_CONFIG');
 
         if ($mergeConfig) {
-            @trigger_error('Since aws/aws-sdk-php-symfony 2.5.0: Support for case-insensitive AWS_MERGE_CONFIG is deprecated and will be removed in 3.0.0', \E_USER_DEPRECATED);
+            @trigger_error(
+                'Since aws/aws-sdk-php-symfony 2.5.0: Support for case-insensitive'
+                . ' AWS_MERGE_CONFIG is deprecated and will be removed in 3.0.0',
+                \E_USER_DEPRECATED
+            );
         }
 
         return $mergeConfig;
