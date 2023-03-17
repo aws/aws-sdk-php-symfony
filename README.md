@@ -1,17 +1,15 @@
 # AWS Service Provider for Symfony
 
-[![@awsforphp on Twitter](http://img.shields.io/badge/twitter-%40awsforphp-blue.svg?style=flat)](https://twitter.com/awsforphp)
-[![Build Status](https://travis-ci.org/aws/aws-sdk-php-symfony.svg)](https://travis-ci.org/aws/aws-sdk-php-symfony)
 [![Latest Stable Version](https://img.shields.io/packagist/v/aws/aws-sdk-php-symfony.svg)](https://packagist.org/packages/aws/aws-sdk-php-symfony)
 [![Total Downloads](https://img.shields.io/packagist/dt/aws/aws-sdk-php-symfony.svg)](https://packagist.org/packages/aws/aws-sdk-php-symfony)
 
 A Symfony bundle for including the [AWS SDK for PHP](https://github.com/aws/aws-sdk-php).
 
 Jump To:
-* [Getting Started](_#getting-started_)
-* [Getting Help](_#getting-help_)
-* [Contributing](_#contributing_)
-* [More Resources](_#resources_)
+* [Getting Started](#getting-started)
+* [Getting Help](#getting-help)
+* [Contributing](#contributing)
+* [More Resources](#resources)
 
 ## Getting Started
 
