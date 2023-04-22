@@ -8,6 +8,9 @@ use Symfony\Component\Config\Definition\ConfigurationInterface;
 
 class Configuration implements ConfigurationInterface
 {
+    /**
+     * @return TreeBuilder
+     */
     public function getConfigTreeBuilder()
     {
         // Maintain backwars compatibility, only merge when AWS_MERGE_CONFIG is set
