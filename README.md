@@ -59,11 +59,13 @@ name, such as `@a_service`. This syntax will be converted to a service during
 container compilation. If you want to use a string literal that begins with `@`,
 you will need to escape it by adding another `@` sign.
 
-When using the SDK from an EC2 instance, you can write `credentials: ~` to use
+When using the SDK from an EC2 instance or ECS task, you can write `credentials: ~` to use
 [instance profile credentials](https://docs.aws.amazon.com/sdk-for-php/v3/developer-guide/guide_credentials.html#instance-profile-credentials).
 This syntax means that temporary credentials will be automatically retrieved
-from the EC2 instance's metadata server. It's also the preferred technique for
+from the environment's metadata server. It's also the preferred technique for
 providing credentials to applications running on that specific context.
+
+It is possible to pass an `Aws\CacheInterface` service to `credentials:`. This means that temporary credentials will be automatically retrieved from the environment's metadata server and cached using the provided service.
 
 Sample configuration can be found in the `tests/fixtures` folder for [YAML](https://github.com/aws/aws-sdk-php-symfony/blob/master/tests/fixtures/config.yml), [PHP](https://github.com/aws/aws-sdk-php-symfony/blob/master/tests/fixtures/config.php), and [XML](https://github.com/aws/aws-sdk-php-symfony/blob/master/tests/fixtures/config.xml).
 
@@ -87,6 +89,8 @@ aws:
         version: '2006-03-01'
     Sqs:
         credentials: "@a_service"
+    Rds:
+        credentials: "@aws_cache_credentials"
     CloudSearchDomain:
         endpoint: https://search-with-some-subdomain.us-east-1.cloudsearch.amazonaws.com
 
@@ -96,6 +100,11 @@ services:
         arguments:
             - a-different-fake-key
             - a-different-fake-secret
+
+    aws_cache_credentials:
+        class: Aws\PsrCacheAdapter
+        arguments:
+            - "@redis_cache_service"
 ```
 
 ### Usage
