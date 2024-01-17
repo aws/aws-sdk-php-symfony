@@ -15,7 +15,10 @@ use Symfony\Component\HttpKernel\Kernel;
 
 class AwsExtension extends Extension
 {
-    public function load(array $configs, ContainerBuilder $container)
+    /**
+     * @throws \Exception
+     */
+    public function load(array $configs, ContainerBuilder $container): void
     {
         $loader = new YamlFileLoader(
             $container,
@@ -44,7 +47,7 @@ class AwsExtension extends Extension
     }
 
 
-    private function createServiceDefinition($name)
+    private function createServiceDefinition($name): Definition
     {
         $clientClass = "Aws\\{$name}\\{$name}Client";
         $serviceDefinition = new Definition(
@@ -53,21 +56,13 @@ class AwsExtension extends Extension
 
         $serviceDefinition->setLazy(true);
 
-        // Handle Symfony >= 2.6
-        if (method_exists($serviceDefinition, 'setFactory')) {
-            return $serviceDefinition->setFactory([
-                new Reference('aws_sdk'),
-                'createClient',
-            ])->setArguments([$name]);
-        }
-
-        return $serviceDefinition
-                ->setFactoryService('aws_sdk')
-                ->setFactoryMethod('createClient')
-                ->setArguments([$name]);
+        return $serviceDefinition->setFactory([
+            new Reference('aws_sdk'),
+            'createClient',
+        ])->setArguments([$name]);
     }
 
-    private function inflateServicesInConfig(array &$config)
+    private function inflateServicesInConfig(array &$config): void
     {
         array_walk($config, function (&$value) {
             if (is_array($value)) {

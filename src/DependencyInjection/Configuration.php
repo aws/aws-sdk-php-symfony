@@ -8,7 +8,7 @@ use Symfony\Component\Config\Definition\ConfigurationInterface;
 
 class Configuration implements ConfigurationInterface
 {
-    public function getConfigTreeBuilder()
+    public function getConfigTreeBuilder(): TreeBuilder
     {
         // Maintain backwars compatibility, only merge when AWS_MERGE_CONFIG is set
         $mergeConfig = $this->shouldMergeConfig();
@@ -70,8 +70,7 @@ class Configuration implements ConfigurationInterface
                 ->variableNode('ua_append')->end()
                 ->variableNode('validate')->end()
                 ->scalarNode('version')->end()
-            ->end()
-        ;
+            ->end();
 
         //Setup config trees for each of the services
         foreach (array_column(Aws\manifest(), 'namespace') as $awsService) {
@@ -111,14 +110,13 @@ class Configuration implements ConfigurationInterface
                             ->scalarNode('version')->end()
                         ->end()
                     ->end()
-                ->end()
-            ;
+                ->end();
         }
 
         return $treeBuilder;
     }
 
-    protected function shouldMergeConfig()
+    protected function shouldMergeConfig(): ?string
     {
         # works with symfony/dotenv
         if (isset($_ENV['AWS_MERGE_CONFIG'])) {

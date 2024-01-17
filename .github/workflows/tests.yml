@@ -7,32 +7,95 @@ on:
   pull_request:
     branches: [ master ]
 
+permissions:
+  contents: read
+
 jobs:
+  verify-no-models-changes:
+    runs-on: ubuntu-20.04
+    name: Check for model changes
+    if: github.event_name == 'pull_request'
+    steps:
+      - name: Checkout codebase
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - run: |
+          BASE_REPO="${{ github.event.pull_request.base.repo.clone_url }}"
+          git fetch $BASE_REPO master:master -q
+          CHANGED_FILES=$(git diff --name-only FETCH_HEAD...HEAD -- src/data/)
+          if [ ! -z "$CHANGED_FILES" ]; then
+            echo "Changes detected in the following models:"
+            echo "$CHANGED_FILES"
+            exit 1
+          fi
   run:
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-20.04
     strategy:
       #for each of the following versions of PHP, with and without --prefer-lowest
       matrix:
-        php-versions: ['5.5', '5.6', '7.0', '7.1', '7.2', '7.3', '7.4']
-
+        php-versions: ['7.2.5', '7.2', '7.3', '7.4', '8.0', '8.1', '8.2']
+        composer-options: ['', '--prefer-lowest']
     #set the name for each job
-    name: PHP ${{ matrix.php-versions }}
+    name: PHP ${{ matrix.php-versions }} ${{ matrix.composer-options }}
+    #set up environment variables used by unit tests
+    env:
+      AWS_ACCESS_KEY_ID: foo
+      AWS_SECRET_ACCESS_KEY: bar
+      AWS_CSM_ENABLED: false
+      AWS_SUPPRESS_PHP_DEPRECATION_WARNING: true
     steps:
       #sets up the correct version of PHP with necessary config options
-      - name: Setup PHP
+      - name: Setup PHP with Xdebug
         uses: shivammathur/setup-php@v2
         with:
+          coverage: xdebug
           php-version: ${{ matrix.php-versions }}
-          ini-values: memory_limit=4G, phar.readonly=false
+          ini-values: xdebug.overload_var_dump=0, memory_limit=4G, phar.readonly=false
 
       #checkout the codebase from github
       - name: Checkout codebase
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
-      #run composer
-      - name: Composer install
-        run: composer install
+      #validate composer files
+      - name: Validate composer.json and composer.lock
+        run: composer validate
+
+      #get dependencies
+      - name: Install dependencies
+        run: composer update ${{ matrix.composer-options }} --no-interaction --prefer-source
+
+      #php 8.x requirements
+      - if: ${{ matrix.php-versions >= '8.0' && matrix.composer-options != '' }}
+        name: PHP 8.x
+        run: composer require --dev phpunit/phpunit "^9.5" --no-interaction --prefer-source --with-all-dependencies
+
+      #php 8.1+ requirements
+      - if: ${{ matrix.php-versions >= '8.1' && matrix.composer-options != '' }}
+        name: PHP 8.1+
+        run: composer require --dev guzzlehttp/guzzle "^7.4.5" --no-interaction --prefer-source --with-all-dependencies
 
       #run tests
       - name: Run test suite
-        run: vendor/bin/phpunit
+        run: make test
+
+      #static analysis
+      - if: ${{ matrix.php-versions < '8.0' && matrix.composer-options == '' }}
+        name: Static analysis
+        run: |
+          composer require --dev nette/neon "^3.0"
+          composer require --dev phpstan/phpstan "0.12.45"
+          vendor/bin/phpstan analyse src
+
+      #generate package
+      - if:  ${{ matrix.composer-options == '' }}
+        name: Package generation
+        run: |
+          composer require guzzlehttp/psr7 "^1.9.1" -W
+          composer update
+          make package
+
+      #generate code coverage
+      - if: ${{ (matrix.php-versions == '7.2.5' || matrix.php-versions == '8.0') && matrix.composer-options == '' }}
+        name: Code coverage
+        run: bash <(curl -s https://codecov.io/bash)
