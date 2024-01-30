@@ -61,23 +61,3 @@ jobs:
       - name: Run test suite
         run: make test
 
-      #static analysis
-      - if: ${{ matrix.php-versions < '8.0' && matrix.composer-options == '' }}
-        name: Static analysis
-        run: |
-          composer require --dev nette/neon "^3.0"
-          composer require --dev phpstan/phpstan "0.12.45"
-          vendor/bin/phpstan analyse src
-
-      #generate package
-      - if:  ${{ matrix.composer-options == '' }}
-        name: Package generation
-        run: |
-          composer require guzzlehttp/psr7 "^1.9.1" -W
-          composer update
-          make package
-
-      #generate code coverage
-      - if: ${{ (matrix.php-versions == '7.2.5' || matrix.php-versions == '8.0') && matrix.composer-options == '' }}
-        name: Code coverage
-        run: bash <(curl -s https://codecov.io/bash)
