@@ -10,6 +10,7 @@ use Aws\S3\S3Client;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Reference;
 
 class AwsExtensionTest extends TestCase
@@ -24,7 +25,7 @@ class AwsExtensionTest extends TestCase
      */
     protected $container;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->kernel = new AppKernel('test', true);
         $this->kernel->boot();
@@ -38,9 +39,9 @@ class AwsExtensionTest extends TestCase
     public function sdk_config_should_be_passed_directly_to_the_constructor_and_resolved_by_the_sdk()
     {
         $config           = $this->kernel->getTestConfig()['aws'];
-        $s3Region         = isset($config['S3']['region']) ? $config['S3']['region'] : $config['region'];
-        $lambdaRegion     = isset($config['Lambda']['region']) ? $config['Lambda']['region'] : $config['region'];
-        $codeDeployRegion = isset($config['CodeDeploy']['region']) ? $config['CodeDeploy']['region'] : $config['region'];
+        $s3Region         = $config['S3']['region'] ?? $config['region'];
+        $lambdaRegion     = $config['Lambda']['region'] ?? $config['region'];
+        $codeDeployRegion = $config['CodeDeploy']['region'] ?? $config['region'];
 
         $testService = $this->container->get('test_service');
 
@@ -76,13 +77,16 @@ class AwsExtensionTest extends TestCase
             'secret' => '@@secret'
         ]];
         $container = $this->getMockBuilder(ContainerBuilder::class)
-            ->setMethods(['getDefinition', 'replaceArgument'])
+            ->onlyMethods(['getDefinition'])
+            ->getMock();
+        $definition = $this->getMockBuilder(Definition::class)
+            ->onlyMethods(['replaceArgument'])
             ->getMock();
         $container->expects($this->once())
             ->method('getDefinition')
             ->with('aws_sdk')
-            ->willReturnSelf();
-        $container->expects($this->once())
+            ->willReturn($definition);
+        $definition->expects($this->once())
             ->method('replaceArgument')
             ->with(0, $this->callback(function ($arg) {
                 return is_array($arg)
@@ -104,13 +108,16 @@ class AwsExtensionTest extends TestCase
         $extension = new AwsExtension;
         $config = ['credentials' => '@aws_sdk'];
         $container = $this->getMockBuilder(ContainerBuilder::class)
-            ->setMethods(['getDefinition', 'replaceArgument'])
+            ->onlyMethods(['getDefinition'])
+            ->getMock();
+        $definition = $this->getMockBuilder(Definition::class)
+            ->onlyMethods(['replaceArgument'])
             ->getMock();
         $container->expects($this->once())
             ->method('getDefinition')
             ->with('aws_sdk')
-            ->willReturnSelf();
-        $container->expects($this->once())
+            ->willReturn($definition);
+        $definition->expects($this->once())
             ->method('replaceArgument')
             ->with(0, $this->callback(function ($arg) {
                 return is_array($arg)
@@ -137,7 +144,6 @@ class AwsExtensionTest extends TestCase
             'stats' => [
                 'http' => true
             ],
-            'retries' => 5,
             'endpoint' => 'http://localhost:8000',
             'endpoint_discovery' => [
                 'enabled' => true,
@@ -181,13 +187,16 @@ class AwsExtensionTest extends TestCase
             'validate' => true,
         ];
         $container = $this->getMockBuilder(ContainerBuilder::class)
-            ->setMethods(['getDefinition', 'replaceArgument'])
+            ->onlyMethods(['getDefinition'])
+            ->getMock();
+        $definition = $this->getMockBuilder(Definition::class)
+            ->onlyMethods(['replaceArgument'])
             ->getMock();
         $container->expects($this->once())
             ->method('getDefinition')
             ->with('aws_sdk')
-            ->willReturnSelf();
-        $container->expects($this->once())
+            ->willReturn($definition);
+        $definition->expects($this->once())
             ->method('replaceArgument')
             ->with(0, $this->callback(function ($arg) {
                 return is_array($arg)
@@ -230,9 +239,8 @@ class AwsExtensionTest extends TestCase
             'foo' => 'baz'
         ];
         $container = $this->getMockBuilder(ContainerBuilder::class)
-            ->setMethods(['getDefinition', 'replaceArgument'])
+            ->onlyMethods(['getDefinition'])
             ->getMock();
-
         try {
             $extension->load([$config, $configDev], $container);
             $this->fail('Should have thrown an Error or RuntimeException');

@@ -35,7 +35,7 @@ class TestService
     /**
      * @return S3Client
      */
-    public function getS3Client()
+    public function getS3Client(): S3Client
     {
         return $this->s3Client;
     }
@@ -43,7 +43,7 @@ class TestService
     /**
      * @return LambdaClient
      */
-    public function getLambdaClient()
+    public function getLambdaClient(): LambdaClient
     {
         return $this->lambdaClient;
     }
@@ -51,7 +51,7 @@ class TestService
     /**
      * @return CodeDeployClient
      */
-    public function getCodeDeployClient()
+    public function getCodeDeployClient(): CodeDeployClient
     {
         return $this->codeDeployClient;
     }
@@ -59,7 +59,7 @@ class TestService
     /**
      * @return array
      */
-    public function getClients()
+    public function getClients(): array
     {
         return [
             $this->s3Client,

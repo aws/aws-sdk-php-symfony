@@ -16,7 +16,7 @@ class AppKernel extends Kernel
         parent::__construct($env, $debug);
     }
 
-    public function registerBundles()
+    public function registerBundles(): iterable
     {
         return [
             new FrameworkBundle(),
@@ -24,7 +24,7 @@ class AppKernel extends Kernel
         ];
     }
 
-    public function registerContainerConfiguration(LoaderInterface $loader)
+    public function registerContainerConfiguration(LoaderInterface $loader): void
     {
         $loader->load($this->getTestConfigFile($this->extension));
     }
@@ -35,7 +35,7 @@ class AppKernel extends Kernel
     }
 
 
-    private function getTestConfigFile($extension)
+    private function getTestConfigFile($extension): string
     {
         return __DIR__ . '/config.' . $extension;
     }

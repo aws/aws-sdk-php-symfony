@@ -10,7 +10,7 @@ use Symfony\Component\Filesystem\Filesystem;
 
 class ConfigurationTest extends TestCase
 {
-    public function setUp()
+    public function setUp(): void
     {
         (new Filesystem)
             ->remove(implode(DIRECTORY_SEPARATOR, [
@@ -39,7 +39,7 @@ class ConfigurationTest extends TestCase
         $this->assertNotInstanceOf(DynamoDbClient::class, $testService->getCodeDeployClient());
     }
 
-    public function formatProvider()
+    public function formatProvider(): array
     {
         return [
             ['yml'],
