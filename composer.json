@@ -12,8 +12,8 @@
         }
     ],
     "require": {
-        "php": ">=7.2.5",
-        "aws/aws-sdk-php": "^3.279.0",
+        "php": ">=8.1",
+        "aws/aws-sdk-php": "^3.338.0",
         "symfony/config": "~5.0|~6.0|~7.0",
         "symfony/dependency-injection": "~5.0|~6.0|~7.0",
         "symfony/http-kernel": "~5.0|~6.0|~7.0"
