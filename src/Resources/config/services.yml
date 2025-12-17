@@ -1,8 +1,0 @@
-parameters:
-    aws_sdk.class: Aws\Sdk
-
-services:
-    aws_sdk:
-        class: "%aws_sdk.class%"
-        arguments:
-            - ~
